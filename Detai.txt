@@ -1,0 +1,13 @@
+Đề tài 15: Ứng dụng truy xuất nguồn gốc thực phẩm bằng Blockchain
+1. Giới thiệu hệ thống
+    – Hệ thống giúp người tiêu dùng kiểm tra nguồn gốc thực phẩm thông qua Blockchain.
+2. Chức năng chính
+    – Quản lý chuỗi cung ứng thực phẩm minh bạch.
+    – Truy xuất nguồn gốc sản phẩm bằng mã QR.
+    – Xác thực chất lượng thực phẩm.
+3. Yêu cầu cần giải quyết
+    – Đảm bảo an toàn thực phẩm.
+    – Minh bạch hóa quy trình sản xuất và phân phối.
+4. Hướng phát triển
+    – Kết hợp AI để phát hiện gian lận thực phẩm.
+    – Mở rộng hệ thống sang các sản phẩm hữu cơ.
