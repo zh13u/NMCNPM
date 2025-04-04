@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'products',
-    'users'
+    'users',
+    'news'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,15 @@ WSGI_APPLICATION = 'foodtrace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'foodtrace_db',
+        'USER': 'root',
+        'PASSWORD': 'Hieu1234@@',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
 
@@ -123,3 +131,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Add this to your settings.py to configure the custom user model
+
+AUTH_USER_MODEL = 'accounts.Account'
+
+# Login/logout URLs
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'news:home'
+LOGOUT_REDIRECT_URL = 'news:home'
+
+# Message settings
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
