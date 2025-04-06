@@ -1,0 +1,6 @@
+flask
+web3
+qrcode
+python-dotenv
+hexbytes
+py-solc-x
