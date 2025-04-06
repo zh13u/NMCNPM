@@ -19,8 +19,6 @@ Hệ thống truy xuất nguồn gốc thực phẩm sử dụng **Smart Contrac
 2. [Tải Ganache](https://trufflesuite.com/ganache/) và cài đặt
 3. Truy cập [Remix IDE](https://remix.ethereum.org/) để compile + deploy Smart Contract
 
----
-
 ### ✅ Bước 2: Clone dự án
 
 ### ✅ Bước 3: Cài đặt thư viện Python
