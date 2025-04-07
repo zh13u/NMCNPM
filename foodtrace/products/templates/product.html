@@ -11,7 +11,7 @@
       {% for event in events %}
         <li>
           <strong>Step:</strong> {{ event[4] }} | 
-          <strong>Actor:</strong> {{ event[2] }} | 
+          <strong>Actor:</strong> {{ event[2] }} |
           <strong>Time:</strong> {{ event[7]|int | timestamp_to_string }}
         </li>
       {% endfor %}

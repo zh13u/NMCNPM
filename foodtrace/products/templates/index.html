@@ -61,17 +61,24 @@
       const productId = document.getElementById('searchProductId').value;
       try {
         const res = await axios.get('/api/getEvents/' + productId);
+        console.log(res.data.events);
         const events = res.data.events;
         let html = '<h3>Lịch sử sự kiện:</h3>';
-        if(events.length > 0) {
+        if (events.length > 0) {
           events.forEach(event => {
-            html += `<p>Step: ${event.step}, Actor: ${event.actor}, Time: ${new Date(event.timestamp * 1000).toLocaleString()}</p>`;
+            // Kiểm tra xem timestamp có hợp lệ không
+            let timestamp = event.timestamp;
+            let timeString = "Invalid Date";
+            if (!isNaN(timestamp) && timestamp > 0) {
+              timeString = new Date(timestamp * 1000).toLocaleString();
+            }
+            html += `<p>Step: ${event.step}, Actor: ${event.actor}, Time: ${timeString}</p>`;
           });
         } else {
           html += '<p>Không có sự kiện nào cho sản phẩm này.</p>';
         }
         document.getElementById('result').innerHTML = html;
-      } catch(err) {
+      } catch (err) {
         console.error(err);
         alert('Lỗi: ' + err.response.data.error);
       }
