@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Danh sách người dùng</h2>
+    {% if users %}
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="{% url 'users:user_detail' user.pk %}">{{ user.user.username }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Chưa có người dùng nào.</p>
+    {% endif %}
+    <a href="{% url 'accounts:home' %}">Quay lại trang chủ</a>
+{% endblock %}

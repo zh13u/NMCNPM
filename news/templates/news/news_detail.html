@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ news.title }}</h2>
+    <p>Ngày đăng: {{ news.published_at }}</p>
+    <p>{{ news.content }}</p>
+    <a href="{% url 'news:news_list' %}">Quay lại danh sách</a>
+{% endblock %}

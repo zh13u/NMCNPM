@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Chi tiết sản phẩm: {{ product.name }}</h2>
+    <p><strong>Nguồn gốc:</strong> {{ product.origin }}</p>
+    <p><strong>Ngày sản xuất:</strong> {{ product.production_date }}</p>
+    <p><strong>Blockchain Hash:</strong> {{ product.blockchain_hash }}</p>
+    <p><strong>Ngày tạo:</strong> {{ product.created_at }}</p>
+    <a href="{% url 'products:product_list' %}">Quay lại danh sách sản phẩm</a>
+{% endblock %}

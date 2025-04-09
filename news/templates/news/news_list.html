@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Danh sách tin tức</h2>
+    {% if news_items %}
+        <ul>
+            {% for news in news_items %}
+                <li>
+                    <a href="{% url 'news:news_detail' news.pk %}">{{ news.title }}</a> 
+                    - Ngày đăng: {{ news.published_at }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Chưa có tin tức nào.</p>
+    {% endif %}
+    <a href="{% url 'accounts:home' %}">Quay lại trang chủ</a>
+{% endblock %}

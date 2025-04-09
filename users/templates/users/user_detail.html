@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Hồ sơ người dùng: {{ user.user.username }}</h2>
+    <p>Địa chỉ: {{ user.address }}</p>
+    <p>Số điện thoại: {{ user.phone }}</p>
+    <a href="{% url 'users:user_list' %}">Quay lại danh sách</a>
+{% endblock %}

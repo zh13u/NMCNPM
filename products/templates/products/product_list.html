@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Danh sách sản phẩm</h2>
+    {% if products %}
+        <ul>
+            {% for product in products %}
+                <li>
+                    <a href="{% url 'products:product_detail' product.pk %}">{{ product.name }}</a> 
+                    - Nguồn gốc: {{ product.origin }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Chưa có sản phẩm nào.</p>
+    {% endif %}
+    <a href="{% url 'accounts:home' %}">Quay lại trang chủ</a>
+{% endblock %}
