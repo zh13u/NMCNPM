@@ -1,925 +1,800 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
-  Container,
   Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
+  Container,
   Button,
-  Chip,
+  Grid,
   useTheme,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  IconButton,
+  Paper,
+  Divider,
   TextField,
   InputAdornment,
-  Snackbar,
-  Alert,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Paper,
-  Autocomplete,
-  Link,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemAvatar,
+  alpha,
+  useMediaQuery,
   Avatar,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import {
   Timeline,
   Business,
-  Verified,
-  TrendingUp,
   Security,
-  LocalShipping,
-  EmojiEvents,
-  Restaurant,
-  Close,
+  Verified,
+  ArrowForward,
+  QrCodeScanner,
   Search,
-  Send,
-  Person,
-  Email,
-  Phone,
-  Message,
-  Login,
-  HowToReg,
-  AccountCircle,
-  ExitToApp,
-  Google,
-  Facebook,
-  Apple,
-  History,
-  Delete,
-  Visibility,
-  VisibilityOff,
-  LockReset,
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useThemeContext } from '../contexts/ThemeContext';
+
+// Define animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: 'easeOut'
+    }
+  })
+};
 
 const features = [
   {
-    icon: <Timeline sx={{ fontSize: 40 }} />,
+    icon: <Timeline sx={{ fontSize: 50, color: '#4CAF50' }} />,
     title: 'Truy xuất nguồn gốc',
-    description: 'Theo dõi toàn bộ quá trình sản xuất và phân phối sản phẩm',
-    color: 'primary',
-    image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    description: 'Theo dõi toàn bộ quá trình từ sản xuất đến tiêu thụ sản phẩm',
+    color: '#4CAF50',
+    bgColor: 'rgba(76, 175, 80, 0.1)',
   },
   {
-    icon: <Business sx={{ fontSize: 40 }} />,
+    icon: <Business sx={{ fontSize: 50, color: '#2196F3' }} />,
     title: 'Quản lý doanh nghiệp',
-    description: 'Công cụ quản lý doanh nghiệp hiệu quả và minh bạch',
-    color: 'secondary',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    description: 'Công cụ quản lý sản phẩm và chuỗi cung ứng cho doanh nghiệp',
+    color: '#2196F3',
+    bgColor: 'rgba(33, 150, 243, 0.1)',
+  },
+  {
+    icon: <Verified sx={{ fontSize: 50, color: '#FF9800' }} />,
+    title: 'Chứng nhận chất lượng',
+    description: 'Xác thực và chứng nhận chất lượng sản phẩm',
+    color: '#FF9800',
+    bgColor: 'rgba(255, 152, 0, 0.1)',
+  },
+  {
+    icon: <Security sx={{ fontSize: 50, color: '#9C27B0' }} />,
+    title: 'Bảo mật thông tin',
+    description: 'Sử dụng blockchain để đảm bảo tính minh bạch và không thể giả mạo',
+    color: '#9C27B0',
+    bgColor: 'rgba(156, 39, 176, 0.1)',
+  },
+];
+
+const steps = [
+  {
+    icon: <QrCodeScanner sx={{ fontSize: 40 }} />,
+    title: 'Quét mã QR',
+    description: 'Quét mã QR trên sản phẩm để truy xuất thông tin',
+  },
+  {
+    icon: <Timeline sx={{ fontSize: 40 }} />,
+    title: 'Xem lịch sử',
+    description: 'Theo dõi toàn bộ quá trình sản xuất và vận chuyển',
   },
   {
     icon: <Verified sx={{ fontSize: 40 }} />,
-    title: 'Chứng nhận chất lượng',
-    description: 'Xác thực và chứng nhận chất lượng sản phẩm',
-    color: 'success',
-    image: 'https://images.unsplash.com/photo-1579113800032-c38bd7635818?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-  },
-  {
-    icon: <Security sx={{ fontSize: 40 }} />,
-    title: 'Bảo mật thông tin',
-    description: 'Bảo vệ thông tin bằng công nghệ blockchain',
-    color: 'info',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    title: 'Xác thực',
+    description: 'Kiểm tra tính xác thực của sản phẩm và chứng nhận',
   },
 ];
 
-const stats = [
-  {
-    icon: <Business sx={{ fontSize: 40 }} />,
-    title: 'Doanh nghiệp',
-    value: '1000+',
-    color: {
-      light: 'custom.blue.light',
-      main: 'custom.blue.main',
-    },
-  },
-  {
-    icon: <Restaurant sx={{ fontSize: 40 }} />,
-    title: 'Sản phẩm',
-    value: '5000+',
-    color: {
-      light: 'custom.green.light',
-      main: 'custom.green.main',
-    },
-  },
-  {
-    icon: <LocalShipping sx={{ fontSize: 40 }} />,
-    title: 'Giao dịch',
-    value: '10000+',
-    color: {
-      light: 'custom.orange.light',
-      main: 'custom.orange.main',
-    },
-  },
-  {
-    icon: <EmojiEvents sx={{ fontSize: 40 }} />,
-    title: 'Chứng nhận',
-    value: '2000+',
-    color: {
-      light: 'custom.purple.light',
-      main: 'custom.purple.main',
-    },
-  },
+// Sample images for the carousel
+const carouselImages = [
+  'https://images.unsplash.com/photo-1506617564039-2f3b650b7010?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+  'https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+  'https://images.unsplash.com/photo-1498579150354-977475b7ea0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+  'https://images.unsplash.com/photo-1530062845289-9109b2c9c868?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
 ];
 
-const searchOptions = [
-  { label: 'Sản phẩm hữu cơ', category: 'product' },
-  { label: 'Doanh nghiệp nông nghiệp', category: 'business' },
-  { label: 'Chứng nhận chất lượng', category: 'certification' },
-  { label: 'Quy trình sản xuất', category: 'process' },
+// Sample testimonials
+const testimonials = [
+  {
+    name: 'Nguyễn Văn A',
+    role: 'Giám đốc Công ty Thực phẩm XYZ',
+    content: 'Hệ thống giúp chúng tôi quản lý chuỗi cung ứng một cách hiệu quả và minh bạch. Khách hàng của chúng tôi rất hài lòng khi có thể truy xuất nguồn gốc sản phẩm.',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+  },
+  {
+    name: 'Trần Thị B',
+    role: 'Quản lý Nông trại Organic',
+    content: 'Công nghệ blockchain đã giúp chúng tôi chứng minh được sản phẩm hữu cơ của mình, tăng giá trị và niềm tin của người tiêu dùng.',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+  },
+  {
+    name: 'Lê Văn C',
+    role: 'Người tiêu dùng',
+    content: 'Tôi cảm thấy an tâm hơn khi biết rõ nguồn gốc thực phẩm mình sử dụng. Đây là một bước tiến lớn trong ngành thực phẩm.',
+    avatar: 'https://randomuser.me/api/portraits/men/67.jpg',
+  },
 ];
 
 const Home: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
-  const [showFeatureDialog, setShowFeatureDialog] = useState(false);
-  const [showContactDialog, setShowContactDialog] = useState(false);
-  const [showLoginDialog, setShowLoginDialog] = useState(false);
-  const [showForgotPasswordDialog, setShowForgotPasswordDialog] = useState(false);
-  const [showSearchHistory, setShowSearchHistory] = useState(false);
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [searchValue, setSearchValue] = useState('');
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-    showPassword: false,
-  });
-  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { mode } = useThemeContext();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Load search history from localStorage
-  useEffect(() => {
-    const savedHistory = localStorage.getItem('searchHistory');
-    if (savedHistory) {
-      setSearchHistory(JSON.parse(savedHistory));
-    }
+  // Change image every 5 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
-
-  // Save search history to localStorage
-  useEffect(() => {
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-  }, [searchHistory]);
-
-  const handleFeatureClick = (index: number) => {
-    setSelectedFeature(index);
-    setShowFeatureDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setShowFeatureDialog(false);
-    setSelectedFeature(null);
-  };
 
   const handleGetStarted = () => {
     navigate('/register');
   };
 
-  const handleLearnMore = () => {
-    navigate('/about');
-  };
-
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement contact form submission
-    setShowContactDialog(false);
-    setSnackbarMessage('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.');
-    setSnackbarSeverity('success');
-    setShowSnackbar(true);
-    setContactForm({ name: '', email: '', phone: '', message: '' });
-  };
-
-  const handleLogin = () => {
-    // TODO: Implement login logic
-    setShowLoginDialog(false);
-    setSnackbarMessage('Đăng nhập thành công!');
-    setSnackbarSeverity('success');
-    setShowSnackbar(true);
-  };
-
-  const handleSearch = (value: string) => {
-    if (value.trim()) {
-      setSearchValue(value);
-      setSearchHistory((prev) => [value, ...prev.filter((item) => item !== value)].slice(0, 10));
-      navigate(`/search?q=${value}`);
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
-  const handleClearSearchHistory = () => {
-    setSearchHistory([]);
-    localStorage.removeItem('searchHistory');
-  };
-
-  const handleRemoveFromHistory = (item: string) => {
-    setSearchHistory((prev) => prev.filter((i) => i !== item));
-  };
-
-  const handleSocialLogin = (provider: 'google' | 'facebook' | 'apple') => {
-    setIsLoading(true);
-    // TODO: Implement social login logic
-    setTimeout(() => {
-      setIsLoading(false);
-      setShowLoginDialog(false);
-      setSnackbarMessage(`Đăng nhập bằng ${provider} thành công!`);
-      setSnackbarSeverity('success');
-      setShowSnackbar(true);
-    }, 1500);
-  };
-
-  const handleForgotPassword = () => {
-    setIsLoading(true);
-    // TODO: Implement forgot password logic
-    setTimeout(() => {
-      setIsLoading(false);
-      setShowForgotPasswordDialog(false);
-      setSnackbarMessage('Vui lòng kiểm tra email để đặt lại mật khẩu');
-      setSnackbarSeverity('success');
-      setShowSnackbar(true);
-    }, 1500);
-  };
-
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleProfileMenuClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
-    <Box sx={{ minHeight: '100vh', background: theme.palette.background.gradient }}>
-      <Container maxWidth="lg">
-        {/* Search Bar with History */}
-        <Box sx={{ position: 'fixed', top: 16, right: 16, zIndex: 1000 }}>
-          <Paper sx={{ p: 1, display: 'flex', alignItems: 'center', width: 300 }}>
-            <Autocomplete
-              freeSolo
-              options={searchOptions}
-              value={searchValue}
-              onChange={(_, newValue) => handleSearch(typeof newValue === 'string' ? newValue : newValue?.label || '')}
-              onFocus={() => setShowSearchHistory(true)}
-              onBlur={() => setTimeout(() => setShowSearchHistory(false), 200)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder="Tìm kiếm..."
-                  variant="standard"
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-            />
-          </Paper>
-          {showSearchHistory && searchHistory.length > 0 && (
-            <Paper
-              sx={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                mt: 1,
-                maxHeight: 300,
-                overflow: 'auto',
-              }}
-            >
-              <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="subtitle2" color="text.secondary">
-                  Lịch sử tìm kiếm
-                </Typography>
-                <Button
-                  size="small"
-                  startIcon={<Delete />}
-                  onClick={handleClearSearchHistory}
-                >
-                  Xóa tất cả
-                </Button>
-              </Box>
-              <List>
-                {searchHistory.map((item, index) => (
-                  <ListItem
-                    key={index}
-                    disablePadding
-                    secondaryAction={
-                      <IconButton
-                        edge="end"
-                        size="small"
-                        onClick={() => handleRemoveFromHistory(item)}
-                      >
-                        <Close fontSize="small" />
-                      </IconButton>
-                    }
-                  >
-                    <ListItemButton onClick={() => handleSearch(item)}>
-                      <ListItemIcon>
-                        <History fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary={item} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-          )}
-        </Box>
+    <Box sx={{
+      minHeight: '100vh',
+      background: mode === 'light'
+        ? 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)'
+        : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+      overflow: 'hidden',
+      position: 'relative'
+    }}>
+      {/* Background decorative elements */}
+      <Box sx={{
+        position: 'absolute',
+        top: '10%',
+        left: '5%',
+        width: '300px',
+        height: '300px',
+        borderRadius: '50%',
+        background: mode === 'light'
+          ? 'radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 70%)'
+          : 'radial-gradient(circle, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0) 70%)',
+        zIndex: 0
+      }} />
+      <Box sx={{
+        position: 'absolute',
+        bottom: '15%',
+        right: '10%',
+        width: '250px',
+        height: '250px',
+        borderRadius: '50%',
+        background: mode === 'light'
+          ? 'radial-gradient(circle, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0) 70%)'
+          : 'radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, rgba(33, 150, 243, 0) 70%)',
+        zIndex: 0
+      }} />
 
-        {/* User Menu */}
-        <Box sx={{ position: 'fixed', top: 16, left: 16, zIndex: 1000 }}>
-          <IconButton onClick={handleProfileMenuOpen}>
-            <AccountCircle sx={{ fontSize: 40 }} />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleProfileMenuClose}
-          >
-            <MenuItem onClick={() => { handleProfileMenuClose(); setShowLoginDialog(true); }}>
-              <ListItemIcon>
-                <Login fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Đăng nhập</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={() => { handleProfileMenuClose(); navigate('/register'); }}>
-              <ListItemIcon>
-                <HowToReg fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Đăng ký</ListItemText>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={() => { handleProfileMenuClose(); setShowContactDialog(true); }}>
-              <ListItemIcon>
-                <Message fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Liên hệ</ListItemText>
-            </MenuItem>
-          </Menu>
-        </Box>
-
-        {/* Hero Section */}
-        <Box
-          sx={{
-            py: 8,
-            textAlign: 'center',
-            backgroundImage: 'url(https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderRadius: 4,
-            position: 'relative',
-            overflow: 'hidden',
-            mb: 6,
-          }}
-        >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              bgcolor: 'rgba(0,0,0,0.5)',
-              zIndex: 1,
-            }}
-          />
-          <Box sx={{ position: 'relative', zIndex: 2, p: 4 }}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Typography variant="h2" component="h1" gutterBottom sx={{ color: 'white' }}>
-                Hệ thống truy xuất nguồn gốc thực phẩm
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 4, color: 'white' }}>
-                Minh bạch - An toàn - Bền vững
-              </Typography>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleGetStarted}
-                sx={{
-                  bgcolor: 'white',
-                  color: 'primary.main',
-                  '&:hover': {
-                    bgcolor: 'grey.100',
-                  },
-                }}
-              >
-                Bắt đầu ngay
-              </Button>
-            </motion.div>
-          </Box>
-        </Box>
-
-        {/* Stats Section */}
-        <Grid container spacing={4} sx={{ mb: 8 }}>
-          {stats.map((stat, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        {/* Hero Section with Image Carousel */}
+        <Box sx={{ py: { xs: 6, md: 12 } }}>
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                custom={0}
               >
-                <Card
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  gutterBottom
                   sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    p: 3,
-                    bgcolor: stat.color.light,
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                    },
+                    fontWeight: 700,
+                    background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    mb: 3,
+                    fontSize: { xs: '2.5rem', md: '3.5rem' }
                   }}
-                  onClick={() => handleLearnMore()}
                 >
-                  <Box
+                  Hệ thống truy xuất nguồn gốc thực phẩm
+                </Typography>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                custom={1}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: 'text.secondary',
+                    maxWidth: '800px',
+                    mb: 4,
+                    lineHeight: 1.6
+                  }}
+                >
+                  Sử dụng công nghệ blockchain để đảm bảo tính minh bạch và an toàn cho chuỗi cung ứng thực phẩm
+                </Typography>
+              </motion.div>
+
+              {/* Search Bar */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                custom={2}
+              >
+                <Box sx={{
+                  display: 'flex',
+                  mb: 4,
+                  maxWidth: '500px',
+                  mx: { xs: 'auto', md: 0 }
+                }}>
+                  <TextField
+                    fullWidth
+                    placeholder="Tìm kiếm sản phẩm, doanh nghiệp..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search color="primary" />
+                        </InputAdornment>
+                      ),
+                      sx: {
+                        borderRadius: '50px',
+                        bgcolor: alpha(theme.palette.background.paper, 0.8),
+                        backdropFilter: 'blur(8px)',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        border: '1px solid',
+                        borderColor: alpha(theme.palette.primary.main, 0.2),
+                        py: 1,
+                        '&:hover': {
+                          bgcolor: alpha(theme.palette.background.paper, 0.95),
+                        },
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={handleSearch}
                     sx={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      bgcolor: stat.color.main,
-                      mb: 2,
+                      ml: 1,
+                      borderRadius: '50px',
+                      px: 3,
+                      background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                      boxShadow: '0 4px 10px rgba(76, 175, 80, 0.3)',
                     }}
                   >
-                    {stat.icon}
-                  </Box>
-                  <Typography variant="h4" component="h2" gutterBottom>
-                    {stat.value}
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    {stat.title}
-                  </Typography>
-                </Card>
+                    <Search />
+                  </Button>
+                </Box>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                custom={3}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handleGetStarted}
+                  sx={{
+                    py: 1.5,
+                    px: 4,
+                    borderRadius: '50px',
+                    background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                    boxShadow: '0 10px 20px rgba(76, 175, 80, 0.3)',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      background: 'linear-gradient(90deg, #43A047 0%, #1E88E5 100%)',
+                      boxShadow: '0 6px 15px rgba(76, 175, 80, 0.4)',
+                    }
+                  }}
+                  endIcon={<ArrowForward />}
+                >
+                  Bắt đầu ngay
+                </Button>
               </motion.div>
             </Grid>
-          ))}
-        </Grid>
 
-        {/* Features Section */}
-        <Grid container spacing={4} sx={{ mb: 8 }}>
-          {features.map((feature, index) => (
-            <Grid item xs={12} md={6} key={index}>
+            {/* Image Carousel */}
+            <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                custom={2}
               >
-                <Card
-                  sx={{
-                    height: '100%',
+                <Box sx={{ position: 'relative', height: '400px', overflow: 'hidden', borderRadius: '20px' }}>
+                  {/* Image carousel */}
+                    <motion.div
+                      key={currentImageIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 1 }}
+                      style={{ position: 'absolute', width: '100%', height: '100%' }}
+                    >
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: '100%',
+                          backgroundImage: `url(${carouselImages[currentImageIndex]})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          borderRadius: '20px',
+                          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+                          border: '5px solid',
+                          borderColor: alpha(theme.palette.background.paper, 0.8),
+                        }}
+                      />
+                    </motion.div>
+
+                  {/* Image indicators */}
+                  <Box sx={{
+                    position: 'absolute',
+                    bottom: 16,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     display: 'flex',
-                    flexDirection: 'column',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s',
-                    '&:hover': {
-                      transform: 'scale(1.02)',
-                    },
-                  }}
-                  onClick={() => handleFeatureClick(index)}
+                    gap: 1,
+                    zIndex: 2
+                  }}>
+                    {carouselImages.map((_, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: 12,
+                          height: 12,
+                          borderRadius: '50%',
+                          bgcolor: index === currentImageIndex ? 'primary.main' : 'rgba(255, 255, 255, 0.5)',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onClick={() => setCurrentImageIndex(index)}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              </motion.div>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* How it works section */}
+        <Box sx={{ py: 8 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={3}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                position: 'relative',
+                display: 'inline-block',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                '&:after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '25%',
+                  width: '50%',
+                  height: 4,
+                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                  borderRadius: 2
+                }
+              }}
+            >
+              Cách thức hoạt động
+            </Typography>
+          </motion.div>
+
+          <Grid container spacing={4} justifyContent="center">
+            {steps.map((step, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeIn}
+                  custom={index + 4}
+                  whileHover={{ y: -10 }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={feature.image}
-                    alt={feature.title}
-                  />
-                  <Box
+                  <Paper
+                    elevation={0}
                     sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      bgcolor: 'rgba(0,0,0,0.3)',
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      position: 'relative',
-                      zIndex: 1,
-                      flexGrow: 1,
+                      p: 4,
+                      height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
                       textAlign: 'center',
-                      color: 'white',
+                      borderRadius: 4,
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.5)',
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&:before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '5px',
+                        background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                      }
                     }}
                   >
                     <Box
                       sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         width: 80,
                         height: 80,
                         borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        bgcolor: `${feature.color}.main`,
-                        mb: 2,
+                        background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%)',
+                        mb: 3,
                       }}
                     >
-                      {feature.icon}
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                          color: 'white',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {index + 1}
+                      </Typography>
                     </Box>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                      {feature.title}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                      {step.icon}
+                    </Box>
+                    <Typography variant="h6" gutterBottom fontWeight="bold">
+                      {step.title}
                     </Typography>
-                    <Typography variant="body1" sx={{ mb: 2 }}>
-                      {feature.description}
+                    <Typography color="text.secondary">
+                      {step.description}
                     </Typography>
-                    <Button
-                      variant="contained"
-                      color={feature.color as any}
-                      sx={{ mt: 'auto' }}
-                    >
-                      Tìm hiểu thêm
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
+                  </Paper>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
 
-        {/* Feature Dialog */}
-        <Dialog
-          open={showFeatureDialog}
-          onClose={handleCloseDialog}
-          maxWidth="md"
-          fullWidth
-        >
-          {selectedFeature !== null && (
-            <>
-              <DialogTitle>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                  <Typography variant="h5">
-                    {features[selectedFeature].title}
-                  </Typography>
-                  <IconButton onClick={handleCloseDialog}>
-                    <Close />
-                  </IconButton>
-                </Box>
-              </DialogTitle>
-              <DialogContent>
-                <Box sx={{ mt: 2 }}>
-                  <Typography variant="body1" paragraph>
-                    {features[selectedFeature].description}
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    Với tính năng này, bạn có thể:
-                  </Typography>
-                  <ul>
-                    <li>Theo dõi toàn bộ quá trình sản xuất và phân phối</li>
-                    <li>Xác thực nguồn gốc sản phẩm</li>
-                    <li>Đảm bảo tính minh bạch trong chuỗi cung ứng</li>
-                  </ul>
-                </Box>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Đóng</Button>
+        {/* Features Section */}
+        <Box sx={{ py: 8 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={7}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                position: 'relative',
+                display: 'inline-block',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                '&:after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '25%',
+                  width: '50%',
+                  height: 4,
+                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                  borderRadius: 2
+                }
+              }}
+            >
+              Tính năng nổi bật
+            </Typography>
+          </motion.div>
+
+          <Grid container spacing={4}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeIn}
+                  custom={index + 8}
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      height: '100%',
+                      borderRadius: 4,
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.5)',
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      '&:before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '5px',
+                        height: '100%',
+                        background: feature.color,
+                      }
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: 80,
+                          height: 80,
+                          borderRadius: 3,
+                          background: feature.bgColor,
+                          mr: 3,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {feature.icon}
+                      </Box>
+                      <Box>
+                        <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ color: feature.color }}>
+                          {feature.title}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                          {feature.description}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Testimonials Section */}
+        <Box sx={{ py: 10 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={11}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                position: 'relative',
+                display: 'inline-block',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                '&:after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '25%',
+                  width: '50%',
+                  height: 4,
+                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                  borderRadius: 2
+                }
+              }}
+            >
+              Khách hàng nói gì về chúng tôi
+            </Typography>
+          </motion.div>
+
+          <Grid container spacing={4} sx={{ mt: 4 }}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeIn}
+                  custom={index + 12}
+                  whileHover={{ y: -10 }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 4,
+                      height: '100%',
+                      borderRadius: 4,
+                      background: mode === 'light'
+                        ? 'rgba(255, 255, 255, 0.8)'
+                        : 'rgba(30, 30, 30, 0.8)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid',
+                      borderColor: mode === 'light'
+                        ? 'rgba(255, 255, 255, 0.5)'
+                        : 'rgba(255, 255, 255, 0.1)',
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      position: 'relative',
+                      '&:before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 20,
+                        left: 20,
+                        fontSize: '4rem',
+                        color: alpha(theme.palette.primary.main, 0.2),
+                        fontFamily: 'Georgia, serif',
+                        lineHeight: 1,
+                      }
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{
+                        mb: 3,
+                        mt: 3,
+                        pl: 2,
+                        fontStyle: 'italic',
+                        lineHeight: 1.7,
+                        flex: 1,
+                      }}
+                    >
+                      {testimonial.content}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                      <Avatar
+                        src={testimonial.avatar}
+                        sx={{
+                          width: 56,
+                          height: 56,
+                          border: '2px solid',
+                          borderColor: 'primary.main',
+                        }}
+                      />
+                      <Box sx={{ ml: 2 }}>
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          {testimonial.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {testimonial.role}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Call to action */}
+        <Box sx={{ py: 10, textAlign: 'center' }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={15}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                p: { xs: 4, md: 8 },
+                borderRadius: 4,
+                background: mode === 'light'
+                  ? 'linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%)'
+                  : 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.1) 100%)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid',
+                borderColor: mode === 'light'
+                  ? 'rgba(255, 255, 255, 0.5)'
+                  : 'rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+              }}
+            >
+              <Typography
+                variant="h3"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', md: '2.5rem' },
+                  mb: 3
+                }}
+              >
+                Sẵn sàng trải nghiệm?
+              </Typography>
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                sx={{
+                  maxWidth: '800px',
+                  mx: 'auto',
+                  mb: 4
+                }}
+              >
+                Đăng ký ngay hôm nay để bắt đầu truy xuất nguồn gốc sản phẩm và tham gia vào hệ sinh thái minh bạch
+              </Typography>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <Button
                   variant="contained"
-                  color={features[selectedFeature].color as any}
-                  onClick={() => {
-                    handleCloseDialog();
-                    navigate('/register');
+                  size="large"
+                  onClick={handleGetStarted}
+                  sx={{
+                    py: 1.5,
+                    px: 6,
+                    borderRadius: '50px',
+                    background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                    boxShadow: '0 10px 20px rgba(76, 175, 80, 0.3)',
+                    fontWeight: 'bold',
+                    fontSize: '1.1rem',
+                    '&:hover': {
+                      background: 'linear-gradient(90deg, #43A047 0%, #1E88E5 100%)',
+                      boxShadow: '0 6px 15px rgba(76, 175, 80, 0.4)',
+                    }
                   }}
+                  endIcon={<ArrowForward />}
                 >
                   Đăng ký ngay
                 </Button>
-              </DialogActions>
-            </>
-          )}
-        </Dialog>
-
-        {/* CTA Section */}
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 8,
-            backgroundImage: 'url(https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            borderRadius: 4,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              bgcolor: 'rgba(0,0,0,0.6)',
-              zIndex: 1,
-            }}
-          />
-          <Box sx={{ position: 'relative', zIndex: 2, p: 4 }}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Typography variant="h3" component="h2" gutterBottom sx={{ color: 'white' }}>
-                Sẵn sàng tham gia?
-              </Typography>
-              <Typography variant="h6" sx={{ mb: 4, color: 'white' }}>
-                Hãy bắt đầu hành trình minh bạch hóa nguồn gốc thực phẩm cùng chúng tôi
-              </Typography>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleGetStarted}
-                sx={{
-                  bgcolor: 'white',
-                  color: 'primary.main',
-                  '&:hover': {
-                    bgcolor: 'grey.100',
-                  },
-                }}
-              >
-                Đăng ký ngay
-              </Button>
-            </motion.div>
-          </Box>
+              </motion.div>
+            </Paper>
+          </motion.div>
         </Box>
 
-        {/* Contact Dialog */}
-        <Dialog open={showContactDialog} onClose={() => setShowContactDialog(false)} maxWidth="sm" fullWidth>
-          <DialogTitle>Liên hệ với chúng tôi</DialogTitle>
-          <form onSubmit={handleContactSubmit}>
-            <DialogContent>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Họ và tên"
-                    value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    required
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Person />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    required
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Email />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Số điện thoại"
-                    value={contactForm.phone}
-                    onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Phone />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Nội dung"
-                    multiline
-                    rows={4}
-                    value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    required
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Message />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setShowContactDialog(false)}>Hủy</Button>
-              <Button type="submit" variant="contained" startIcon={<Send />}>
-                Gửi
-              </Button>
-            </DialogActions>
-          </form>
-        </Dialog>
-
-        {/* Login Dialog with Social Login */}
-        <Dialog open={showLoginDialog} onClose={() => setShowLoginDialog(false)} maxWidth="xs" fullWidth>
-          <DialogTitle>Đăng nhập</DialogTitle>
-          <DialogContent>
-            <Box component="form" sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Email"
-                value={loginForm.email}
-                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-                autoComplete="email"
-                autoFocus
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Mật khẩu"
-                type={loginForm.showPassword ? 'text' : 'password'}
-                value={loginForm.password}
-                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                autoComplete="current-password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Security />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setLoginForm({ ...loginForm, showPassword: !loginForm.showPassword })}
-                      >
-                        {loginForm.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Box sx={{ mt: 1, textAlign: 'right' }}>
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    setShowLoginDialog(false);
-                    setShowForgotPasswordDialog(true);
-                  }}
-                >
-                  Quên mật khẩu?
-                </Link>
-              </Box>
-            </Box>
-            <Box sx={{ mt: 2, textAlign: 'center' }}>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                Hoặc đăng nhập bằng
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-                <IconButton
-                  onClick={() => handleSocialLogin('google')}
-                  sx={{ bgcolor: 'white', '&:hover': { bgcolor: 'grey.100' } }}
-                >
-                  <Google />
-                </IconButton>
-                <IconButton
-                  onClick={() => handleSocialLogin('facebook')}
-                  sx={{ bgcolor: 'white', '&:hover': { bgcolor: 'grey.100' } }}
-                >
-                  <Facebook />
-                </IconButton>
-                <IconButton
-                  onClick={() => handleSocialLogin('apple')}
-                  sx={{ bgcolor: 'white', '&:hover': { bgcolor: 'grey.100' } }}
-                >
-                  <Apple />
-                </IconButton>
-              </Box>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setShowLoginDialog(false)}>Hủy</Button>
-            <Button
-              onClick={handleLogin}
-              variant="contained"
-              startIcon={isLoading ? <CircularProgress size={20} /> : <Login />}
-              disabled={isLoading}
-            >
-              Đăng nhập
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Forgot Password Dialog */}
-        <Dialog open={showForgotPasswordDialog} onClose={() => setShowForgotPasswordDialog(false)} maxWidth="xs" fullWidth>
-          <DialogTitle>Quên mật khẩu</DialogTitle>
-          <DialogContent>
-            <Box component="form" sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Email"
-                value={forgotPasswordEmail}
-                onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                autoComplete="email"
-                autoFocus
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setShowForgotPasswordDialog(false)}>Hủy</Button>
-            <Button
-              onClick={handleForgotPassword}
-              variant="contained"
-              startIcon={isLoading ? <CircularProgress size={20} /> : <LockReset />}
-              disabled={isLoading}
-            >
-              Gửi yêu cầu
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Snackbar */}
-        <Snackbar
-          open={showSnackbar}
-          autoHideDuration={6000}
-          onClose={() => setShowSnackbar(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert
-            onClose={() => setShowSnackbar(false)}
-            severity={snackbarSeverity}
-            sx={{ width: '100%' }}
-          >
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
+        {/* Footer */}
+        <Box sx={{ py: 4, textAlign: 'center' }}>
+          <Divider sx={{ mb: 4 }} />
+          <Typography variant="body2" color="text.secondary">
+            © {new Date().getFullYear()} FoodTrace. Hệ thống truy xuất nguồn gốc thực phẩm.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );
 };
 
-export default Home; 
+export default Home;
