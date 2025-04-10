@@ -17,6 +17,7 @@ import {
   Badge,
   useTheme,
   useMediaQuery,
+  Tooltip,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -29,9 +30,12 @@ import {
   ExitToApp,
   Person,
   Security,
+  Info,
+  Search,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import ThemeToggle from './ThemeToggle';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -43,6 +47,7 @@ const menuItems = [
   { text: 'Trang chủ', icon: <Home />, path: '/' },
   { text: 'Doanh nghiệp', icon: <Business />, path: '/business' },
   { text: 'Theo dõi', icon: <Timeline />, path: '/tracking' },
+  { text: 'Giới thiệu', icon: <Info />, path: '/about' },
   { text: 'Cài đặt', icon: <Settings />, path: '/settings' },
 ];
 
@@ -160,6 +165,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
+
+          {/* Search Button */}
+          <Tooltip title="Tìm kiếm">
+            <IconButton
+              color="inherit"
+              sx={{
+                mr: 1,
+                bgcolor: 'rgba(0, 0, 0, 0.04)',
+                '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.08)' },
+              }}
+              onClick={() => navigate('/')}
+            >
+              <Search />
+            </IconButton>
+          </Tooltip>
+
+          {/* Theme Toggle */}
+          <Box sx={{ mr: 1 }}>
+            <ThemeToggle />
+          </Box>
+
           <IconButton color="inherit" onClick={handleNotificationMenuOpen}>
             <Badge badgeContent={3} color="error">
               <Notifications />
@@ -301,4 +327,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout; 
+export default Layout;
