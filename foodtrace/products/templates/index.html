@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Food Traceability DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h2>Nhập Thông Tin Sản Phẩm (Nhà sản xuất)</h2>
+  <form id="eventForm">
+    <input type="text" id="productId" placeholder="Product ID" required><br>
+    <input type="text" id="productName" placeholder="Product Name" required><br>
+    <input type="text" id="actor" placeholder="Actor (Nhà sản xuất,...)" required><br>
+    <input type="text" id="location" placeholder="Location" required><br>
+    <input type="text" id="step" placeholder="Step (Sản xuất, Đóng gói,...)" required><br>
+    <input type="text" id="qualityStatus" placeholder="Quality Status" required><br>
+    <input type="text" id="details" placeholder="Details (Tùy chọn)"><br>
+    <button type="submit">Thêm Sự Kiện</button>
+  </form>
+
+  <hr>
+
+  <h2>Truy Xuất Thông Tin Sản Phẩm (Scan QR)</h2>
+  <input type="text" id="searchProductId" placeholder="Nhập Product ID">
+  <button id="searchBtn">Tìm Sản Phẩm</button>
+  <div id="result"></div>
+
+  <hr>
+
+  <h2>Tạo QR Code cho Sản Phẩm</h2>
+  <input type="text" id="qrProductId" placeholder="Nhập Product ID">
+  <button id="generateQRBtn">Tạo QR Code</button>
+  <div id="qrCode"></div>
+
+  <script>
+    // Gửi yêu cầu thêm sự kiện
+    document.getElementById('eventForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const productId = document.getElementById('productId').value;
+      const productName = document.getElementById('productName').value;
+      const actor = document.getElementById('actor').value;
+      const location = document.getElementById('location').value;
+      const step = document.getElementById('step').value;
+      const qualityStatus = document.getElementById('qualityStatus').value;
+      const details = document.getElementById('details').value;
+      
+      try {
+        const res = await axios.post('/api/addEvent', {
+          productId, productName, actor, location, step, qualityStatus, details
+        });
+        alert('Sự kiện đã được thêm thành công!');
+        document.getElementById('eventForm').reset();
+      } catch(err) {
+        console.error(err);
+        alert('Lỗi: ' + err.response.data.error);
+      }
+    });
+
+    // Tìm lịch sử sản phẩm
+    document.getElementById('searchBtn').addEventListener('click', async () => {
+      const productId = document.getElementById('searchProductId').value;
+      try {
+        const res = await axios.get('/api/getEvents/' + productId);
+        console.log(res.data.events);
+        const events = res.data.events;
+        let html = '<h3>Lịch sử sự kiện:</h3>';
+        if (events.length > 0) {
+          events.forEach(event => {
+            // Kiểm tra xem timestamp có hợp lệ không
+            let timestamp = event.timestamp;
+            let timeString = "Invalid Date";
+            if (!isNaN(timestamp) && timestamp > 0) {
+              timeString = new Date(timestamp * 1000).toLocaleString();
+            }
+            html += `<p>Step: ${event.step}, Actor: ${event.actor}, Time: ${timeString}</p>`;
+          });
+        } else {
+          html += '<p>Không có sự kiện nào cho sản phẩm này.</p>';
+        }
+        document.getElementById('result').innerHTML = html;
+      } catch (err) {
+        console.error(err);
+        alert('Lỗi: ' + err.response.data.error);
+      }
+    });
+
+    // Tạo QR Code cho sản phẩm
+    document.getElementById('generateQRBtn').addEventListener('click', async () => {
+      const productId = document.getElementById('qrProductId').value;
+      try {
+        const res = await axios.get('/api/generateQR/' + productId, { responseType: 'blob' });
+        const url = URL.createObjectURL(res.data);
+        document.getElementById('qrCode').innerHTML = `<img src="${url}" alt="QR Code">`;
+      } catch(err) {
+        console.error(err);
+        alert('Lỗi: ' + err.response.data.error);
+      }
+    });
+  </script>
+</body>
+</html>
