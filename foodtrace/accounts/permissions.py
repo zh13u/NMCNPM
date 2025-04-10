@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from functools import wraps
@@ -55,14 +56,23 @@ def verified_supplier_required(view_func):
         
         if request.user.is_admin():
             return view_func(request, *args, **kwargs)
-        
+
         if request.user.is_supplier():
             try:
+                # Nếu chưa tạo hồ sơ supplier
+                if not hasattr(request.user, 'supplier_profile'):
+                    messages.info(request, "Vui lòng tạo hồ sơ nhà cung cấp trước.")
+                    return redirect('accounts:create_supplier_profile')
+
                 if request.user.supplier_profile.verified_by_admin:
                     return view_func(request, *args, **kwargs)
+                else:
+                    messages.warning(request, "Tài khoản của bạn đang chờ xác minh từ quản trị viên.")
+                    return redirect('news:home')  # hoặc một trang riêng
             except:
-                pass
-        
+                messages.error(request, "Lỗi khi kiểm tra thông tin xác minh.")
+                return redirect('news:home')
+
         raise PermissionDenied
     return wrapped
 

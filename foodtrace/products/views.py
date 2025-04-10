@@ -9,6 +9,8 @@ import qrcode
 import io
 import base64
 from django.core.files.base import ContentFile
+from django.contrib.auth.decorators import login_required
+
 
 from .models import Product, ProductHistory, SupplyChainStep, QRCode
 from accounts.permissions import (
@@ -190,3 +192,16 @@ def verify_blockchain_integrity(product, history):
         prev_hash = record.transaction_hash
     
     return True
+
+@customer_features_required
+def customer_products(request):
+    # Tạm thời render một giao diện đơn giản
+    return render(request, 'products/customer_products.html')
+
+@login_required
+def product_home(request):
+    if request.user.is_supplier():
+        return redirect('products:supplier_dashboard')
+    elif request.user.is_customer():
+        return redirect('products:customer_products')  # sẽ tạo bên dưới
+    return redirect('news:home')
