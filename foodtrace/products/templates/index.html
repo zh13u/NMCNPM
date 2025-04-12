@@ -8,7 +8,6 @@
 <body>
   <h2>Nhập Thông Tin Sản Phẩm (Nhà sản xuất)</h2>
   <form id="eventForm">
-    <input type="text" id="productId" placeholder="Product ID" required><br>
     <input type="text" id="productName" placeholder="Product Name" required><br>
     <input type="text" id="actor" placeholder="Actor (Nhà sản xuất,...)" required><br>
     <input type="text" id="location" placeholder="Location" required><br>
@@ -18,82 +17,101 @@
     <button type="submit">Thêm Sự Kiện</button>
   </form>
 
-  <hr>
-
-  <h2>Truy Xuất Thông Tin Sản Phẩm (Scan QR)</h2>
-  <input type="text" id="searchProductId" placeholder="Nhập Product ID">
-  <button id="searchBtn">Tìm Sản Phẩm</button>
-  <div id="result"></div>
+  <div id="generatedProductId" style="margin-top:10px; font-weight: bold;"></div>
+  <div id="autoQRCode" style="margin-top:10px;"></div>
 
   <hr>
 
-  <h2>Tạo QR Code cho Sản Phẩm</h2>
-  <input type="text" id="qrProductId" placeholder="Nhập Product ID">
-  <button id="generateQRBtn">Tạo QR Code</button>
-  <div id="qrCode"></div>
+  <h2>Truy Xuất Thông Tin Sản Phẩm</h2>
+  <input type="text" id="searchByName" placeholder="Nhập tên sản phẩm">
+  <button id="searchByNameBtn">Tìm Sản Phẩm</button>
+  <div id="searchResult"></div>
 
   <script>
-    // Gửi yêu cầu thêm sự kiện
+    function generateProductId(productName) {
+      const timestamp = Date.now();
+      const name = productName.trim().replace(/\s+/g, "_").toLowerCase();
+      return `${name}_${timestamp}`;
+    }
+
+    async function fetchAndDisplayQR(productId, containerId) {
+      try {
+        const res = await axios.get('/api/generateQR/' + productId, { responseType: 'blob' });
+        const url = URL.createObjectURL(res.data);
+        document.getElementById(containerId).innerHTML = `<img src="${url}" alt="QR Code">`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById(containerId).innerHTML = `<p style="color:red;">Không thể tạo mã QR.</p>`;
+      }
+    }
+
     document.getElementById('eventForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const productId = document.getElementById('productId').value;
       const productName = document.getElementById('productName').value;
       const actor = document.getElementById('actor').value;
       const location = document.getElementById('location').value;
       const step = document.getElementById('step').value;
       const qualityStatus = document.getElementById('qualityStatus').value;
       const details = document.getElementById('details').value;
-      
+
+      const productId = generateProductId(productName);
+
       try {
-        const res = await axios.post('/api/addEvent', {
+        await axios.post('/api/addEvent', {
           productId, productName, actor, location, step, qualityStatus, details
         });
-        alert('Sự kiện đã được thêm thành công!');
-        document.getElementById('eventForm').reset();
-      } catch(err) {
-        console.error(err);
-        alert('Lỗi: ' + err.response.data.error);
-      }
-    });
 
-    // Tìm lịch sử sản phẩm
-    document.getElementById('searchBtn').addEventListener('click', async () => {
-      const productId = document.getElementById('searchProductId').value;
-      try {
-        const res = await axios.get('/api/getEvents/' + productId);
-        console.log(res.data.events);
-        const events = res.data.events;
-        let html = '<h3>Lịch sử sự kiện:</h3>';
-        if (events.length > 0) {
-          events.forEach(event => {
-            // Kiểm tra xem timestamp có hợp lệ không
-            let timestamp = event.timestamp;
-            let timeString = "Invalid Date";
-            if (!isNaN(timestamp) && timestamp > 0) {
-              timeString = new Date(timestamp * 1000).toLocaleString();
-            }
-            html += `<p>Step: ${event.step}, Actor: ${event.actor}, Time: ${timeString}</p>`;
-          });
-        } else {
-          html += '<p>Không có sự kiện nào cho sản phẩm này.</p>';
-        }
-        document.getElementById('result').innerHTML = html;
+        document.getElementById('eventForm').reset();
+        document.getElementById('generatedProductId').innerText =
+          `Sản phẩm đã được tạo với Product ID: ${productId}`;
+
+        await fetchAndDisplayQR(productId, "autoQRCode");
+
       } catch (err) {
         console.error(err);
         alert('Lỗi: ' + err.response.data.error);
       }
     });
 
-    // Tạo QR Code cho sản phẩm
-    document.getElementById('generateQRBtn').addEventListener('click', async () => {
-      const productId = document.getElementById('qrProductId').value;
+    // Tìm theo tên sản phẩm
+    document.getElementById('searchByNameBtn').addEventListener('click', async () => {
+      const name = document.getElementById('searchByName').value.trim();
+      if (!name) {
+        alert("Vui lòng nhập tên sản phẩm.");
+        return;
+      }
+
       try {
-        const res = await axios.get('/api/generateQR/' + productId, { responseType: 'blob' });
-        const url = URL.createObjectURL(res.data);
-        document.getElementById('qrCode').innerHTML = `<img src="${url}" alt="QR Code">`;
-      } catch(err) {
+        const res = await axios.get(`/api/searchProduct?name=${encodeURIComponent(name)}`);
+        if (res.data.results.length > 0) {
+          let html = '<h3>Kết quả tìm kiếm:</h3>';
+          res.data.results.forEach(prod => {
+  let timeString = "Không xác định";
+  if (prod.timestamp && !isNaN(prod.timestamp)) {
+    timeString = new Date(prod.timestamp * 1000).toLocaleString();
+  }
+
+  html += `
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+      <p><strong>ID:</strong> ${prod.productId}</p>
+      <p><strong>Tên sản phầm:</strong> ${prod.productName}</p>
+      <p><strong>Nhà sản xuất:</strong> ${prod.actor}</p>
+      <p><strong>Location:</strong> ${prod.location}</p>
+      <p><strong>Bước:</strong> ${prod.step}</p>
+      <p><strong>Chất lượng:</strong> ${prod.qualityStatus}</p>
+      <p><strong>Chi tiết:</strong> ${prod.details}</p>
+      <p><strong>Thời gian:</strong> ${timeString}</p>
+    </div>
+  `;
+});
+
+          document.getElementById('searchResult').innerHTML = html;
+        } else {
+          document.getElementById('searchResult').innerHTML = '<p style="color:red;">Không tìm thấy sản phẩm</p>';
+        }
+      } catch (err) {
         console.error(err);
-        alert('Lỗi: ' + err.response.data.error);
+        document.getElementById('searchResult').innerHTML = '<p style="color:red;">Không tìm thấy sản phẩm</p>';
       }
     });
   </script>

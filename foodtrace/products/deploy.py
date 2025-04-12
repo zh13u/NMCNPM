@@ -11,7 +11,8 @@ private_key = os.getenv("PRIVATE_KEY") or input("Nhập PRIVATE_KEY của bạn 
 
 # Load và compile .sol
 install_solc("0.8.0")
-with open(r"D:\nmcnpm\foodtrace\products\contracts\FoodTraceability.sol", "r") as file:
+#with open(r"D:\nmcnpm\foodtrace\products\contracts\FoodTraceability.sol", "r") as file:
+with open("contracts/FoodTraceability.sol", "r") as file: #uncommand neu may khong nhan duoc duong dan
     contract_source = file.read()
 
 compiled_sol = compile_standard({
@@ -57,9 +58,8 @@ with open("FoodTraceability.json", "w") as f:
     }, f, indent=2)
 
 # Save .env
-if not os.path.exists(".env"):
-    with open(".env", "w") as f:
-        f.write(f"PRIVATE_KEY={private_key}\n")
-        f.write(f"CONTRACT_ADDRESS={tx_receipt.contractAddress}\n")
+with open(".env", "w") as f:
+    f.write(f"PRIVATE_KEY={private_key}\n")
+    f.write(f"CONTRACT_ADDRESS={tx_receipt.contractAddress}\n")
 
 print(f"Deployed! Contract Address: {tx_receipt.contractAddress}")
