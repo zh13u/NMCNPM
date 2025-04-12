@@ -99,6 +99,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getAllProductIds",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "string",
@@ -160,5 +173,5 @@
       "type": "function"
     }
   ],
-  "address": "0x042dDc57a39768288339541fc901f680671ab6A0"
+  "address": "0x1948d9fc3a89135519dA91520bff22Ad0A42Ac9E"
 }
