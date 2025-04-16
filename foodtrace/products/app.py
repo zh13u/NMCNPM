@@ -110,6 +110,32 @@ def add_event():
         tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
         tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
+        #Ghi data vao file log
+        product_data = {
+            'productId': productId,
+            'productName': productName,
+            'actor': actor,
+            'location': location,
+            'step': step,
+            'qualityStatus': qualityStatus,
+            'details': details,
+            'timestamp': int(datetime.now().timestamp())
+        }
+
+        log_file_path = os.path.join(current_dir, 'product_log.json')
+        try:
+            if os.path.exists(log_file_path):
+                with open(log_file_path, 'r', encoding='utf-8') as f:
+                    existing_logs = json.load(f)
+            else:
+                existing_logs = []
+
+            existing_logs.append(product_data)
+            with open(log_file_path, 'w', encoding='utf-8') as f:
+                json.dump(existing_logs, f, ensure_ascii=False, indent=4)
+        except Exception as e:
+            print(f"Lỗi ghi log: {e}")
+
         #Tạo mã QR
         local_ip = get_local_ip()
         url = f"http://{local_ip}:5000/product/{productId}"
@@ -202,9 +228,53 @@ def product_detail(productId):
         events = contract.functions.getEvents(productId).call()
         return render_template('product.html', productId=productId, events=events)
     except Exception as e:
-        return f"Lỗi: {str(e)}"
+        return f"{str(e)}"
+
+def restore_from_log():
+    log_file_path = os.path.join(current_dir, 'product_log.json')
+    if not os.path.exists(log_file_path):
+        print("Coundn't find log file")
+        return
+
+    try:
+        with open(log_file_path, 'r', encoding='utf-8') as f:
+            product_logs = json.load(f)
+    except Exception as e:
+        print(f"read log error: {e}")
+        return
+
+    for entry in product_logs:
+        productId = entry['productId']
+        existing_events = contract.functions.getEvents(productId).call()
+        if existing_events:
+            continue  # đã tồn tại trên blockchain
+
+        print(f"restore: {productId} - {entry['productName']}")
+        try:
+            nonce = w3.eth.get_transaction_count(account)
+            txn = contract.functions.addEvent(
+                productId,
+                entry['productName'],
+                entry['actor'],
+                entry['location'],
+                entry['step'],
+                entry['qualityStatus'],
+                entry['details']
+            ).build_transaction({
+                'from': account,
+                'nonce': nonce,
+                'gasPrice': w3.to_wei('20', 'gwei'),
+                'gas': 3000000
+            })
+            signed_txn = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
+            tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
+            w3.eth.wait_for_transaction_receipt(tx_hash)
+        except Exception as e:
+            print(f"restore product {productId}: {e}")
+
 
 if __name__ == '__main__':
+    restore_from_log()
     local_ip = get_local_ip()
     print(f"Server running on: http://{local_ip}:5000")
     app.run(host='0.0.0.0', port=5000)
