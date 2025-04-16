@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserRole, Permission, hasPermission } from '../utils/roles';
 
 interface User {
   id: string;
   email: string;
-  name: string;
-  role: 'user' | 'business';
+  username: string;
+  first_name?: string;
+  last_name?: string;
+  role: UserRole;
+  is_verified?: boolean;
+  company_name?: string;
+  profile_image?: string;
 }
 
 interface AuthContextType {
@@ -15,16 +21,24 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
+  hasPermission: (permission: Permission) => boolean;
+  isSupplier: () => boolean;
+  isCustomer: () => boolean;
+  isAdmin: () => boolean;
 }
 
 interface RegisterData {
   email: string;
   password: string;
-  name: string;
-  role: 'user' | 'business';
-  businessName?: string;
+  username: string;
+  first_name?: string;
+  last_name?: string;
+  role: UserRole.SUPPLIER | UserRole.CUSTOMER;
+  company_name?: string;
+  license_number?: string;
   address?: string;
   phone?: string;
+  profile_image?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -65,7 +79,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       setUser(user);
-      navigate('/');
+
+      // Redirect based on user role
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (user.role === 'supplier') {
+        navigate('/supplier/dashboard');
+      } else {
+        navigate('/customer/dashboard');
+      }
     } catch (error) {
       throw new Error('Đăng nhập thất bại');
     }
@@ -89,8 +111,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     navigate('/login');
   };
 
+  // Hàm kiểm tra quyền của người dùng hiện tại
+  const checkPermission = (permission: Permission): boolean => {
+    if (!user) return false;
+    return hasPermission(user.role, permission);
+  };
+
+  // Hàm kiểm tra vai trò
+  const isSupplier = (): boolean => user?.role === UserRole.SUPPLIER;
+  const isCustomer = (): boolean => user?.role === UserRole.CUSTOMER;
+  const isAdmin = (): boolean => user?.role === UserRole.ADMIN;
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{
+      user,
+      loading,
+      login,
+      register,
+      logout,
+      hasPermission: checkPermission,
+      isSupplier,
+      isCustomer,
+      isAdmin
+    }}>
       {children}
     </AuthContext.Provider>
   );
@@ -102,4 +145,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}; 
+};

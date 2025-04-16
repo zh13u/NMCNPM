@@ -32,23 +32,143 @@ import {
   Security,
   Info,
   Search,
+  Dashboard,
+  Inventory,
+  ShoppingCart,
+  QrCodeScanner,
+  LocalShipping,
+  VerifiedUser,
+  AdminPanelSettings,
+  PeopleAlt,
+  Logout,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import { useAuth } from '../contexts/AuthContext';
+import { UserRole, Permission } from '../utils/roles';
+import RoleGate from './RoleGate';
+import PermissionGate from './PermissionGate';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+interface MenuItem {
+  text: string;
+  icon: React.ReactNode;
+  path: string;
+  permission?: Permission;
+}
+
 const drawerWidth = 240;
 
-const menuItems = [
+// Common menu items for all users
+const commonMenuItems: MenuItem[] = [
   { text: 'Trang chủ', icon: <Home />, path: '/' },
-  { text: 'Doanh nghiệp', icon: <Business />, path: '/business' },
-  { text: 'Theo dõi', icon: <Timeline />, path: '/tracking' },
   { text: 'Giới thiệu', icon: <Info />, path: '/about' },
-  { text: 'Cài đặt', icon: <Settings />, path: '/settings' },
+];
+
+// Admin-specific menu items
+const adminMenuItems: MenuItem[] = [
+  {
+    text: 'Bảng điều khiển',
+    icon: <Dashboard />,
+    path: '/admin/dashboard',
+    permission: Permission.VIEW_SYSTEM_STATS
+  },
+  {
+    text: 'Quản lý người dùng',
+    icon: <PeopleAlt />,
+    path: '/admin/users',
+    permission: Permission.MANAGE_USERS
+  },
+  {
+    text: 'Quản lý nhà cung cấp',
+    icon: <Business />,
+    path: '/admin/suppliers',
+    permission: Permission.VERIFY_SUPPLIERS
+  },
+  {
+    text: 'Quản lý sản phẩm',
+    icon: <Inventory />,
+    path: '/admin/products',
+    permission: Permission.VIEW_PRODUCTS
+  },
+  {
+    text: 'Cài đặt hệ thống',
+    icon: <Settings />,
+    path: '/admin/settings',
+    permission: Permission.MANAGE_SYSTEM
+  },
+];
+
+// Supplier-specific menu items
+const supplierMenuItems: MenuItem[] = [
+  {
+    text: 'Bảng điều khiển',
+    icon: <Dashboard />,
+    path: '/supplier/dashboard',
+    permission: Permission.VIEW_SALES
+  },
+  {
+    text: 'Quản lý sản phẩm',
+    icon: <Inventory />,
+    path: '/supplier/products',
+    permission: Permission.CREATE_PRODUCT
+  },
+  {
+    text: 'Đơn hàng',
+    icon: <LocalShipping />,
+    path: '/supplier/orders',
+    permission: Permission.MANAGE_ORDERS
+  },
+  {
+    text: 'Chứng nhận',
+    icon: <VerifiedUser />,
+    path: '/supplier/certifications',
+    permission: Permission.VIEW_PRODUCT_DETAILS
+  },
+  {
+    text: 'Tạo mã QR',
+    icon: <QrCodeScanner />,
+    path: '/supplier/qr-generator',
+    permission: Permission.GENERATE_QR
+  },
+];
+
+// Customer-specific menu items
+const customerMenuItems: MenuItem[] = [
+  {
+    text: 'Bảng điều khiển',
+    icon: <Dashboard />,
+    path: '/customer/dashboard',
+    permission: Permission.VIEW_PRODUCTS
+  },
+  {
+    text: 'Truy xuất',
+    icon: <Timeline />,
+    path: '/tracking',
+    permission: Permission.TRACK_PRODUCT
+  },
+  {
+    text: 'Quét mã QR',
+    icon: <QrCodeScanner />,
+    path: '/customer/scan',
+    permission: Permission.SCAN_QR
+  },
+  {
+    text: 'Giỏ hàng',
+    icon: <ShoppingCart />,
+    path: '/customer/cart',
+    permission: Permission.ADD_TO_CART
+  },
+  {
+    text: 'Lịch sử',
+    icon: <Timeline />,
+    path: '/customer/history',
+    permission: Permission.VIEW_ORDER_HISTORY
+  },
 ];
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
@@ -59,6 +179,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [notificationAnchorEl, setNotificationAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -88,8 +209,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const handleLogout = () => {
-    // TODO: Implement logout logic
-    navigate('/login');
+    logout();
+  };
+
+  // Determine which menu items to show based on user role
+  const getMenuItemsForRole = (): MenuItem[] => {
+    if (!user) return commonMenuItems;
+
+    switch (user.role) {
+      case UserRole.ADMIN:
+        return [...commonMenuItems, ...adminMenuItems];
+      case UserRole.SUPPLIER:
+        return [...commonMenuItems, ...supplierMenuItems];
+      case UserRole.CUSTOMER:
+        return [...commonMenuItems, ...customerMenuItems];
+      default:
+        return commonMenuItems;
+    }
   };
 
   const drawer = (
@@ -109,35 +245,89 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           FoodTrace
         </Typography>
       </Box>
+      {user && (
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            {user.role === 'admin' ? 'Quản trị viên' :
+             user.role === 'supplier' ? 'Nhà cung cấp' : 'Người dùng'}
+          </Typography>
+          <Typography variant="body1" fontWeight="medium">
+            {user.username}
+          </Typography>
+        </Box>
+      )}
       <Divider />
       <List>
-        {menuItems.map((item) => (
-          <ListItem
-            button
-            key={item.text}
-            onClick={() => handleMenuClick(item.path)}
-            selected={location.pathname === item.path}
-            sx={{
-              '&.Mui-selected': {
-                bgcolor: 'primary.light',
-                color: 'primary.contrastText',
-                '& .MuiListItemIcon-root': {
-                  color: 'primary.contrastText',
-                },
-              },
-            }}
-          >
-            <ListItemIcon
+        {getMenuItemsForRole().map((item) => (
+          // Nếu item có quyền, kiểm tra quyền trước khi hiển thị
+          item.permission ? (
+            <PermissionGate key={item.text} permission={item.permission}>
+              <ListItem
+                button
+                onClick={() => handleMenuClick(item.path)}
+                selected={location.pathname === item.path}
+                sx={{
+                  '&.Mui-selected': {
+                    bgcolor: 'primary.light',
+                    color: 'primary.contrastText',
+                    '& .MuiListItemIcon-root': {
+                      color: 'primary.contrastText',
+                    },
+                  },
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    color: location.pathname === item.path ? 'primary.contrastText' : 'inherit',
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            </PermissionGate>
+          ) : (
+            // Nếu item không có quyền, hiển thị bình thường
+            <ListItem
+              button
+              key={item.text}
+              onClick={() => handleMenuClick(item.path)}
+              selected={location.pathname === item.path}
               sx={{
-                color: location.pathname === item.path ? 'primary.contrastText' : 'inherit',
+                '&.Mui-selected': {
+                  bgcolor: 'primary.light',
+                  color: 'primary.contrastText',
+                  '& .MuiListItemIcon-root': {
+                    color: 'primary.contrastText',
+                  },
+                },
               }}
             >
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
+              <ListItemIcon
+                sx={{
+                  color: location.pathname === item.path ? 'primary.contrastText' : 'inherit',
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          )
         ))}
       </List>
+      {user && (
+        <>
+          <Divider />
+          <List>
+            <ListItem button onClick={handleLogout}>
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText primary="Đăng xuất" />
+            </ListItem>
+          </List>
+        </>
+      )}
     </Box>
   );
 

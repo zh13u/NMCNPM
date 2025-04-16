@@ -13,6 +13,9 @@ import {
   alpha,
   useMediaQuery,
   Avatar,
+  Card,
+  CardContent,
+  Chip,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -26,6 +29,9 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useThemeContext } from '../contexts/ThemeContext';
+import ImageBanner from '../components/ImageBanner';
+import VideoPlayer from '../components/VideoPlayer';
+import ProductCard from '../components/ProductCard';
 
 // Define animation variants
 const fadeIn = {
@@ -96,6 +102,49 @@ const carouselImages = [
   'https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
   'https://images.unsplash.com/photo-1498579150354-977475b7ea0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
   'https://images.unsplash.com/photo-1530062845289-9109b2c9c868?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+];
+
+// Sample video URL
+const demoVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
+
+// Sample products
+const sampleProducts = [
+  {
+    id: 1,
+    name: 'Rau cải hữu cơ',
+    price: 35000,
+    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    origin: 'Đà Lạt',
+    supplier: 'Nông trại hữu cơ Đà Lạt',
+    certification: 'VietGAP',
+  },
+  {
+    id: 2,
+    name: 'Thịt bò Wagyu',
+    price: 750000,
+    image: 'https://images.unsplash.com/photo-1603048297172-c83f4fcd3244?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    origin: 'Nhật Bản',
+    supplier: 'Công ty Thực phẩm ABC',
+    certification: 'Global G.A.P',
+  },
+  {
+    id: 3,
+    name: 'Cá hồi tươi',
+    price: 220000,
+    image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    origin: 'Na Uy',
+    supplier: 'Công ty Hải sản XYZ',
+    certification: 'ASC',
+  },
+  {
+    id: 4,
+    name: 'Trái cây hữu cơ',
+    price: 85000,
+    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+    origin: 'Tiền Giang',
+    supplier: 'HTX Nông nghiệp sạch',
+    certification: 'Organic',
+  },
 ];
 
 // Sample testimonials
@@ -322,63 +371,62 @@ const Home: React.FC = () => {
                 variants={fadeIn}
                 custom={2}
               >
-                <Box sx={{ position: 'relative', height: '400px', overflow: 'hidden', borderRadius: '20px' }}>
-                  {/* Image carousel */}
-                    <motion.div
-                      key={currentImageIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 1 }}
-                      style={{ position: 'absolute', width: '100%', height: '100%' }}
-                    >
-                      <Box
-                        sx={{
-                          width: '100%',
-                          height: '100%',
-                          backgroundImage: `url(${carouselImages[currentImageIndex]})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                          borderRadius: '20px',
-                          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
-                          border: '5px solid',
-                          borderColor: alpha(theme.palette.background.paper, 0.8),
-                        }}
-                      />
-                    </motion.div>
-
-                  {/* Image indicators */}
-                  <Box sx={{
-                    position: 'absolute',
-                    bottom: 16,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    gap: 1,
-                    zIndex: 2
-                  }}>
-                    {carouselImages.map((_, index) => (
-                      <Box
-                        key={index}
-                        sx={{
-                          width: 12,
-                          height: 12,
-                          borderRadius: '50%',
-                          bgcolor: index === currentImageIndex ? 'primary.main' : 'rgba(255, 255, 255, 0.5)',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                        }}
-                        onClick={() => setCurrentImageIndex(index)}
-                      />
-                    ))}
-                  </Box>
-                </Box>
+                <ImageBanner
+                  images={carouselImages}
+                  height={400}
+                  autoPlay={true}
+                  interval={5000}
+                  overlay={false}
+                />
               </motion.div>
             </Grid>
           </Grid>
         </Box>
 
-        {/* How it works section */}
+        {/* Video Demo Section */}
         <Box sx={{ py: 8 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={3}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                position: 'relative',
+                display: 'inline-block',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                '&:after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '25%',
+                  width: '50%',
+                  height: 4,
+                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                  borderRadius: 2
+                }
+              }}
+            >
+              Xem video giới thiệu
+            </Typography>
+          </motion.div>
+
+          <Box sx={{ maxWidth: '800px', mx: 'auto', mb: 8 }}>
+            <VideoPlayer
+              src={demoVideoUrl}
+              title="Giới thiệu hệ thống truy xuất nguồn gốc thực phẩm"
+              poster={carouselImages[0]}
+              height={450}
+            />
+          </Box>
+
           <motion.div
             initial="hidden"
             animate="visible"
@@ -492,6 +540,82 @@ const Home: React.FC = () => {
               </Grid>
             ))}
           </Grid>
+        </Box>
+
+        {/* Featured Products Section */}
+        <Box sx={{ py: 8 }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={3}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                mb: 6,
+                position: 'relative',
+                display: 'inline-block',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                '&:after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '25%',
+                  width: '50%',
+                  height: 4,
+                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
+                  borderRadius: 2
+                }
+              }}
+            >
+              Sản phẩm nổi bật
+            </Typography>
+          </motion.div>
+
+          <Grid container spacing={3}>
+            {sampleProducts.map((product, index) => (
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
+                <ProductCard
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image}
+                  origin={product.origin}
+                  supplier={product.supplier}
+                  certification={product.certification}
+                  onAddToCart={() => console.log(`Add to cart: ${product.name}`)}
+                  onFavoriteToggle={() => console.log(`Toggle favorite: ${product.name}`)}
+                  onScanQR={() => console.log(`Scan QR: ${product.name}`)}
+                />
+              </Grid>
+            ))}
+          </Grid>
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => navigate('/products')}
+              sx={{
+                borderRadius: '50px',
+                px: 4,
+                py: 1.5,
+                borderColor: 'primary.main',
+                color: 'primary.main',
+                '&:hover': {
+                  borderColor: 'primary.dark',
+                  backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                }
+              }}
+            >
+              Xem tất cả sản phẩm
+            </Button>
+          </Box>
         </Box>
 
         {/* Features Section */}
