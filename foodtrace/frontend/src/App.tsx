@@ -4,6 +4,8 @@ import { CssBaseline, Box, CircularProgress } from '@mui/material';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { UserRole, Permission } from './utils/roles';
+import QRScanPage from './pages/QRScanPage';
+import QRGeneratorPage from './pages/QRGeneratorPage';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -144,6 +146,22 @@ const App: React.FC = () => {
             } />
             <Route path="/settings" element={
               <ProtectedRoute element={<Settings />} />
+            } />
+
+            {/* QR Code routes */}
+            <Route path="/customer/scan" element={
+              <ProtectedRoute
+                element={<Layout><QRScanPage /></Layout>}
+                allowedRoles={[UserRole.CUSTOMER, UserRole.SUPPLIER, UserRole.ADMIN]}
+                requiredPermissions={[Permission.SCAN_QR]}
+              />
+            } />
+            <Route path="/supplier/qr-generator" element={
+              <ProtectedRoute
+                element={<Layout><QRGeneratorPage /></Layout>}
+                allowedRoles={[UserRole.SUPPLIER, UserRole.ADMIN]}
+                requiredPermissions={[Permission.GENERATE_QR]}
+              />
             } />
 
             <Route path="*" element={<Navigate to="/" replace />} />

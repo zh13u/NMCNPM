@@ -11,11 +11,7 @@ import {
   TextField,
   InputAdornment,
   alpha,
-  useMediaQuery,
   Avatar,
-  Card,
-  CardContent,
-  Chip,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -27,10 +23,10 @@ import {
   QrCodeScanner,
   Search,
 } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useThemeContext } from '../contexts/ThemeContext';
 import ImageBanner from '../components/ImageBanner';
-import VideoPlayer from '../components/VideoPlayer';
+// import VideoPlayer from '../components/VideoPlayer'; // Temporarily disabled
 import ProductCard from '../components/ProductCard';
 
 // Define animation variants
@@ -104,8 +100,8 @@ const carouselImages = [
   'https://images.unsplash.com/photo-1530062845289-9109b2c9c868?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
 ];
 
-// Sample video URL
-const demoVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
+// Sample video URL - temporarily disabled
+// const demoVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
 
 // Sample products
 const sampleProducts = [
@@ -173,17 +169,9 @@ const Home: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { mode } = useThemeContext();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Change image every 5 seconds
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // No need to change image every 5 seconds as we're using ImageBanner component
 
   const handleGetStarted = () => {
     navigate('/register');
@@ -295,7 +283,7 @@ const Home: React.FC = () => {
                     placeholder="Tìm kiếm sản phẩm, doanh nghiệp..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -383,50 +371,10 @@ const Home: React.FC = () => {
           </Grid>
         </Box>
 
-        {/* Video Demo Section */}
+        {/* Video Demo Section - Temporarily disabled */}
+
+        {/* How it works section */}
         <Box sx={{ py: 8 }}>
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            custom={3}
-          >
-            <Typography
-              variant="h4"
-              align="center"
-              gutterBottom
-              sx={{
-                fontWeight: 700,
-                mb: 6,
-                position: 'relative',
-                display: 'inline-block',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                '&:after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -10,
-                  left: '25%',
-                  width: '50%',
-                  height: 4,
-                  background: 'linear-gradient(90deg, #4CAF50 0%, #2196F3 100%)',
-                  borderRadius: 2
-                }
-              }}
-            >
-              Xem video giới thiệu
-            </Typography>
-          </motion.div>
-
-          <Box sx={{ maxWidth: '800px', mx: 'auto', mb: 8 }}>
-            <VideoPlayer
-              src={demoVideoUrl}
-              title="Giới thiệu hệ thống truy xuất nguồn gốc thực phẩm"
-              poster={carouselImages[0]}
-              height={450}
-            />
-          </Box>
-
           <motion.div
             initial="hidden"
             animate="visible"
@@ -578,7 +526,7 @@ const Home: React.FC = () => {
           </motion.div>
 
           <Grid container spacing={3}>
-            {sampleProducts.map((product, index) => (
+            {sampleProducts.map((product) => (
               <Grid item xs={12} sm={6} md={3} key={product.id}>
                 <ProductCard
                   id={product.id}
