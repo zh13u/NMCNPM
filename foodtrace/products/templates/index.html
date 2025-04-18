@@ -28,23 +28,6 @@
   <div id="searchResult"></div>
 
   <script>
-    function generateProductId(productName) {
-      const timestamp = Date.now();
-      const name = productName.trim().replace(/\s+/g, "_").toLowerCase();
-      return `${name}_${timestamp}`;
-    }
-
-    async function fetchAndDisplayQR(productId, containerId) {
-      try {
-        const res = await axios.get('/api/generateQR/' + productId, { responseType: 'blob' });
-        const url = URL.createObjectURL(res.data);
-        document.getElementById(containerId).innerHTML = `<img src="${url}" alt="QR Code">`;
-      } catch (err) {
-        console.error(err);
-        document.getElementById(containerId).innerHTML = `<p style="color:red;">Không thể tạo mã QR.</p>`;
-      }
-    }
-
     document.getElementById('eventForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const productName = document.getElementById('productName').value;
@@ -54,22 +37,24 @@
       const qualityStatus = document.getElementById('qualityStatus').value;
       const details = document.getElementById('details').value;
 
-      const productId = generateProductId(productName);
-
       try {
-        await axios.post('/api/addEvent', {
-          productId, productName, actor, location, step, qualityStatus, details
+        const res = await axios.post('/api/addEvent', {
+          productName, actor, location, step, qualityStatus, details
         });
 
         document.getElementById('eventForm').reset();
         document.getElementById('generatedProductId').innerText =
-          `Sản phẩm đã được tạo với Product ID: ${productId}`;
+          `Sản phẩm đã được tạo với Product ID: ${res.data.productId}`;
 
-        await fetchAndDisplayQR(productId, "autoQRCode");
-
+        // Hiển thị QR code link sản phẩm
+        document.getElementById('autoQRCode').innerHTML = `
+          <p>Thông tin sản phẩm:</p>
+          <a href="${res.data.productUrl}" target="_blank">${res.data.productUrl}</a><br>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(res.data.productUrl)}&size=200x200" alt="QR Code">
+        `;
       } catch (err) {
         console.error(err);
-        alert('Lỗi: ' + err.response.data.error);
+        alert('Lỗi: ' + err.response.data.message);
       }
     });
 
@@ -82,29 +67,24 @@
       }
 
       try {
-        const res = await axios.get(`/api/searchProduct?name=${encodeURIComponent(name)}`);
-        if (res.data.results.length > 0) {
+        const res = await axios.get(`/api/getEventsByName/${encodeURIComponent(name)}`);
+        if (res.data.events.length > 0) {
           let html = '<h3>Kết quả tìm kiếm:</h3>';
-          res.data.results.forEach(prod => {
-  let timeString = "Không xác định";
-  if (prod.timestamp && !isNaN(prod.timestamp)) {
-    timeString = new Date(prod.timestamp * 1000).toLocaleString();
-  }
-
-  html += `
-    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-      <p><strong>ID:</strong> ${prod.productId}</p>
-      <p><strong>Tên sản phầm:</strong> ${prod.productName}</p>
-      <p><strong>Nhà sản xuất:</strong> ${prod.actor}</p>
-      <p><strong>Location:</strong> ${prod.location}</p>
-      <p><strong>Bước:</strong> ${prod.step}</p>
-      <p><strong>Chất lượng:</strong> ${prod.qualityStatus}</p>
-      <p><strong>Chi tiết:</strong> ${prod.details}</p>
-      <p><strong>Thời gian:</strong> ${timeString}</p>
-    </div>
-  `;
-});
-
+          res.data.events.forEach(prod => {
+            let timeString = new Date(prod.timestamp).toLocaleString();
+            html += `
+              <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <p><strong>ID:</strong> ${prod.productId}</p>
+                <p><strong>Tên sản phẩm:</strong> ${prod.productName}</p>
+                <p><strong>Nhà sản xuất:</strong> ${prod.actor}</p>
+                <p><strong>Location:</strong> ${prod.location}</p>
+                <p><strong>Bước:</strong> ${prod.step}</p>
+                <p><strong>Chất lượng:</strong> ${prod.qualityStatus}</p>
+                <p><strong>Chi tiết:</strong> ${prod.details}</p>
+                <p><strong>Thời gian:</strong> ${timeString}</p>
+              </div>
+            `;
+          });
           document.getElementById('searchResult').innerHTML = html;
         } else {
           document.getElementById('searchResult').innerHTML = '<p style="color:red;">Không tìm thấy sản phẩm</p>';

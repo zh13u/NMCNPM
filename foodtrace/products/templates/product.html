@@ -3,19 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Thông Tin Sản Phẩm: {{ productId }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .event-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 15px;
+      width: 450px;
+      background-color: #f9f9f9;
+    }
+    .event-box p {
+      margin: 5px 0;
+    }
+    h2 {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
   <h2>Thông Tin Sản Phẩm: {{ productId }}</h2>
+
   {% if events|length > 0 %}
-    <ul>
-      {% for event in events %}
-        <li>
-          <strong>Step:</strong> {{ event[4] }} | 
-          <strong>Actor:</strong> {{ event[2] }} |
-          <strong>Time:</strong> {{ event[7]|int | timestamp_to_string }}
-        </li>
-      {% endfor %}
-    </ul>
+    {% for event in events %}
+      <div class="event-box">
+        <p><strong>Tên sản phẩm:</strong> {{ event.productName }}</p>
+        <p><strong>Nhà sản xuất:</strong> {{ event.actor }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p><strong>Bước:</strong> {{ event.step }}</p>
+        <p><strong>Chất lượng:</strong> {{ event.qualityStatus }}</p>
+        <p><strong>Chi tiết:</strong> {{ event.details }}</p>
+        <p><strong>Thời gian:</strong> {{ event.timestamp }}</p>
+      </div>
+    {% endfor %}
   {% else %}
     <p>Không có sự kiện nào cho sản phẩm này.</p>
   {% endif %}
