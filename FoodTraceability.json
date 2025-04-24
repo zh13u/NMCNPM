@@ -1,95 +1,40 @@
 {
   "abi": [
     {
-      "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
           "internalType": "string",
           "name": "productId",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "productName",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "actor",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "location",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "step",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "qualityStatus",
           "type": "string"
         },
         {
-          "indexed": false,
           "internalType": "string",
           "name": "details",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "timestamp",
-          "type": "uint256"
-        }
-      ],
-      "name": "NewEvent",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_productId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_productName",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_actor",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_location",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_step",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_qualityStatus",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_details",
           "type": "string"
         }
       ],
@@ -115,7 +60,7 @@
       "inputs": [
         {
           "internalType": "string",
-          "name": "_productId",
+          "name": "productId",
           "type": "string"
         }
       ],
@@ -123,11 +68,6 @@
       "outputs": [
         {
           "components": [
-            {
-              "internalType": "string",
-              "name": "productId",
-              "type": "string"
-            },
             {
               "internalType": "string",
               "name": "productName",
@@ -173,5 +113,5 @@
       "type": "function"
     }
   ],
-  "address": "0x0eDbabF6b42c8A4d6C7F56fCa940E37fE00d061F"
+  "address": "0x479BB4721005A85E9c86bef95c14565Ae449267F"
 }
