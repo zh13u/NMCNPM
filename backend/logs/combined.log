@@ -475,3 +475,5 @@
 {"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 14:04:18"}
 {"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 14:07:48"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 14:07:48"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-25 03:28:41"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-25 03:28:41"}

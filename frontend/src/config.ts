@@ -1,6 +1,6 @@
 // Cấu hình API và các endpoint
 export const API_URL = 'http://localhost:3001';
-export const BLOCKCHAIN_API = 'http://172.20.10.7:5000';
+export const BLOCKCHAIN_API = 'http://192.168.88.142:5000';
 
 // Cấu hình app
 export const APP_NAME = 'Food Traceability';

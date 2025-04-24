@@ -8,6 +8,7 @@ import qrcode
 from dotenv import load_dotenv
 from datetime import datetime
 import socket
+import subprocess
 
 # Load các biến môi trường từ file .env
 load_dotenv()
@@ -130,6 +131,18 @@ def get_local_ip():
     finally:
         s.close()
     return IP
+
+
+# Cập nhật IP trong file config.ts của frontend
+def update_frontend_config(ip_address):
+    try:
+        # Đường dẫn đến script update_config.py
+        update_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'update_config.py')
+        # Chạy script với IP hiện tại
+        subprocess.run(['python', update_script, ip_address], check=True)
+        print(f"Đã cập nhật IP trong file config.ts thành {ip_address}")
+    except Exception as e:
+        print(f"Lỗi khi cập nhật file config.ts: {e}")
 
 
 @app.route('/')
@@ -354,5 +367,6 @@ def all_products():
 
 if __name__ == '__main__':
     local_ip = get_local_ip()
+    update_frontend_config(local_ip)
     print(f"Server running on http://{local_ip}:5000")
     app.run(host='0.0.0.0', port=5000, debug=True)
