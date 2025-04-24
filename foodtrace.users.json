@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "67fff6ca9a7f0931ff4a6620"
+  },
+  "name": "a a",
+  "firstName": "a",
+  "lastName": "a",
+  "email": "a@gmail.com",
+  "password": "$2b$10$VFgH6SaQvUXNI.PRaVwxtu1gBHN/wpf0IP3gHo8HAoY5M/yBNrnsa",
+  "businessName": "",
+  "businessType": "",
+  "address": "",
+  "phone": "",
+  "taxCode": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2025-04-16T18:28:26.567Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67fff71d9a7f0931ff4a6623"
+  },
+  "name": "b b",
+  "firstName": "b",
+  "lastName": "b",
+  "email": "b@gmail.com",
+  "password": "$2b$10$m20Xnm2Njg0Bur4S3VcAI.f1tpgeW36iYBJp0Q2kpQhcWHjLtsTQa",
+  "businessName": "b",
+  "businessType": "b",
+  "address": "b",
+  "phone": "b",
+  "taxCode": "b",
+  "role": "supplier",
+  "createdAt": {
+    "$date": "2025-04-16T18:29:49.006Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "680805ac9a716c1979bd14a1"
+  },
+  "name": "c c",
+  "firstName": "c",
+  "lastName": "c",
+  "email": "c@gmail.com",
+  "password": "$2b$10$nvqc.syD78Pa0sRC82NjPewGf/a6WKdC4PI5XoV/fKdYGTSafbSvi",
+  "businessName": "",
+  "businessType": "",
+  "address": "",
+  "phone": "",
+  "taxCode": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2025-04-22T21:10:04.559Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68081c6e20f8da95bb5401d4"
+  },
+  "name": "la hieu",
+  "firstName": "la",
+  "lastName": "hieu",
+  "email": "kdevil12122000@gmail.com",
+  "password": "$2b$10$9Ng5lIzqLrbAbn1VOeLXwuYB2j6Da5kKPCO3mVqQqrnT2WU.gjCfy",
+  "businessName": "",
+  "businessType": "",
+  "address": "",
+  "phone": "",
+  "taxCode": "",
+  "role": "user",
+  "createdAt": {
+    "$date": "2025-04-22T22:47:10.683Z"
+  },
+  "__v": 0
+}]

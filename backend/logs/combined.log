@@ -1,0 +1,477 @@
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 04:59:40"}
+{"level":"warn","message":"404 - Không tìm thấy - / - / - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 04:59:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 04:59:52"}
+{"level":"error","message":"Lỗi kết nối MongoDB: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","service":"food-tracking-service","timestamp":"2025-04-16 05:00:10"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 05:02:32"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 05:02:32"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:02:49"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 05:35:04"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 05:35:04"}
+{"level":"error","message":"500 - User validation failed: password: Mật khẩu ít nhất 6 ký tự - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:35:47"}
+{"level":"error","message":"ValidationError: User validation failed: password: Mật khẩu ít nhất 6 ký tự\n    at Document.invalidate (D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3351:32)\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3112:17\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\schemaType.js:1407:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","service":"food-tracking-service","timestamp":"2025-04-16 05:35:47"}
+{"level":"error","message":"500 - \"expiresIn\" should be a number of seconds or string representing a timespan - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:35:59"}
+{"level":"error","message":"Error: \"expiresIn\" should be a number of seconds or string representing a timespan\n    at D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:56:15\n    at Array.forEach (<anonymous>)\n    at validate (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:47:6)\n    at validateOptions (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:62:10)\n    at module.exports [as sign] (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:171:5)\n    at UserSchema.methods.getSignedJwtToken (D:\\foodtrace\\backend\\models\\User.js:65:14)\n    at sendTokenResponse (D:\\foodtrace\\backend\\controllers\\authController.js:243:24)\n    at D:\\foodtrace\\backend\\controllers\\authController.js:52:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-16 05:35:59"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 05:40:16"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 05:40:16"}
+{"level":"error","message":"500 - E11000 duplicate key error collection: foodtrace.users index: email_1 dup key: { email: \"kdevil12122000@gmail.com\" } - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:40:48"}
+{"level":"error","message":"MongoServerError: E11000 duplicate key error collection: foodtrace.users index: email_1 dup key: { email: \"kdevil12122000@gmail.com\" }\n    at InsertOneOperation.execute (D:\\foodtrace\\backend\\node_modules\\mongodb\\lib\\operations\\insert.js:51:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async tryOperation (D:\\foodtrace\\backend\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:207:20)\n    at async executeOperation (D:\\foodtrace\\backend\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:75:16)\n    at async Collection.insertOne (D:\\foodtrace\\backend\\node_modules\\mongodb\\lib\\collection.js:157:16)","service":"food-tracking-service","timestamp":"2025-04-16 05:40:48"}
+{"level":"error","message":"500 - \"expiresIn\" should be a number of seconds or string representing a timespan - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:42:48"}
+{"level":"error","message":"Error: \"expiresIn\" should be a number of seconds or string representing a timespan\n    at D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:56:15\n    at Array.forEach (<anonymous>)\n    at validate (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:47:6)\n    at validateOptions (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:62:10)\n    at module.exports [as sign] (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:171:5)\n    at UserSchema.methods.getSignedJwtToken (D:\\foodtrace\\backend\\models\\User.js:65:14)\n    at sendTokenResponse (D:\\foodtrace\\backend\\controllers\\authController.js:243:24)\n    at D:\\foodtrace\\backend\\controllers\\authController.js:52:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-16 05:42:48"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 05:52:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 05:52:15"}
+{"level":"error","message":"500 - \"expiresIn\" should be a number of seconds or string representing a timespan - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-16 05:52:56"}
+{"level":"error","message":"Error: \"expiresIn\" should be a number of seconds or string representing a timespan\n    at D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:56:15\n    at Array.forEach (<anonymous>)\n    at validate (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:47:6)\n    at validateOptions (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:62:10)\n    at module.exports [as sign] (D:\\foodtrace\\backend\\node_modules\\jsonwebtoken\\sign.js:171:5)\n    at UserSchema.methods.getSignedJwtToken (D:\\foodtrace\\backend\\models\\User.js:65:14)\n    at sendTokenResponse (D:\\foodtrace\\backend\\controllers\\authController.js:250:24)\n    at D:\\foodtrace\\backend\\controllers\\authController.js:61:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-16 05:52:56"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 05:56:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 05:56:18"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 06:01:35"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 06:01:35"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 06:24:43"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 06:24:43"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 06:24:55"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 13:30:21"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 13:30:36"}
+{"level":"error","message":"Lỗi kết nối MongoDB: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","service":"food-tracking-service","timestamp":"2025-04-16 13:30:51"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 13:31:11"}
+{"level":"error","message":"Lỗi kết nối MongoDB: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","service":"food-tracking-service","timestamp":"2025-04-16 13:31:41"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 13:33:56"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 13:33:56"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 14:21:27"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 14:21:27"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 14:21:45"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 15:04:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 15:04:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 15:04:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/blockchain.jpg - /images/team/blockchain.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/about/case-study-1.jpg - /images/about/case-study-1.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/about/case-study-2.jpg - /images/about/case-study-2.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/ceo.jpg - /images/team/ceo.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/cto.jpg - /images/team/cto.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /videos/demo.mp4 - /videos/demo.mp4 - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/about/case-study-1.jpg - /images/about/case-study-1.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/about/case-study-2.jpg - /images/about/case-study-2.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/ceo.jpg - /images/team/ceo.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/cto.jpg - /images/team/cto.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /images/team/blockchain.jpg - /images/team/blockchain.jpg - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /videos/demo.mp4 - /videos/demo.mp4 - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 16:49:51"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 16:54:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 16:54:30"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-16 17:02:10"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 23:29:07"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 23:29:07"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 23:47:08"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 23:47:08"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-16 23:52:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-16 23:52:25"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:19:10"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:19:10"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:26:13"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:26:13"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:31:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:31:15"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 00:34:36"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:120:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 00:34:36"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 00:34:36"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:120:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 00:34:36"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:35:31"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:35:31"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:39:22"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:39:22"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:45:40"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:45:40"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:46:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:46:39"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:51:38"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:51:38"}
+{"level":"error","message":"500 - User validation failed: role: `customer` is not a valid enum value for path `role`. - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 00:52:15"}
+{"level":"error","message":"ValidationError: User validation failed: role: `customer` is not a valid enum value for path `role`.\n    at Document.invalidate (D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3351:32)\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3112:17\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\schemaType.js:1407:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","service":"food-tracking-service","timestamp":"2025-04-17 00:52:15"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:54:24"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:54:24"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 00:57:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 00:57:18"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 01:05:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 01:05:30"}
+{"level":"error","message":"500 - User validation failed: email: Vui lòng nhập email hợp lệ - /api/auth/register - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 01:07:10"}
+{"level":"error","message":"ValidationError: User validation failed: email: Vui lòng nhập email hợp lệ\n    at Document.invalidate (D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3351:32)\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\document.js:3112:17\n    at D:\\foodtrace\\backend\\node_modules\\mongoose\\lib\\schemaType.js:1407:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)","service":"food-tracking-service","timestamp":"2025-04-17 01:07:10"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 01:21:44"}
+{"level":"error","message":"Lỗi kết nối MongoDB: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","service":"food-tracking-service","timestamp":"2025-04-17 01:22:14"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 01:27:06"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 01:27:06"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 01:35:27"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:117:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 01:35:27"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 01:35:27"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:117:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 01:35:27"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 01:41:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 01:41:18"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 02:38:31"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 02:38:31"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 02:55:09"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 02:55:09"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 02:56:05"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 02:56:05"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:04:06"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:04:06"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:08:28"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:08:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:08:50"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:08:50"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:19:40"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:19:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:20:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:20:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:20:13"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:20:13"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:24:11"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:24:11"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:36"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:36"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:24:45"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:26:47"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:26:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:27:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:27:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:27:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:27:09"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:36:17"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:36:17"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:36:37"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:36:37"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:38:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:38:05"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:39:17"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:39:17"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:39:33"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::ffff:127.0.0.1","service":"food-tracking-service","timestamp":"2025-04-17 03:39:33"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::ffff:127.0.0.1","service":"food-tracking-service","timestamp":"2025-04-17 03:39:37"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:39:37"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:40:38"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:40:38"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:50"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:50"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:40:52"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:41:46"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:41:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:06"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:06"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:07"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:07"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:08"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:08"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:42:28"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:49:52"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:49:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:50:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:50:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/products - /api/blockchain/products - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:51:18"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 03:52:36"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 03:52:36"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:52:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:52:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/products - /api/blockchain/products - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 03:53:07"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:00:23"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 04:00:23"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:00:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:00:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:01:02"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:38:57"}
+{"level":"error","message":"Lỗi kết nối MongoDB: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017","service":"food-tracking-service","timestamp":"2025-04-17 04:39:27"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:40:09"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 04:40:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:44"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:40:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:41:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:41:10"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:42:04"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 04:42:04"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:42:25"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:42:25"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:42:42"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:42:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:42:53"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:43:59"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 04:44:00"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:44:16"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:44:16"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:44:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:44:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:44:42"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 04:50:04"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 04:50:04"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:50:27"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:50:27"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 04:50:36"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:18:03"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:18:03"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:19:51"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:117:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 05:19:51"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:19:51"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\backend\\controllers\\authController.js:117:45\n    at asyncUtilWrap (D:\\foodtrace\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-17 05:19:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:20:14"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:20:14"}
+{"level":"error","message":"500 - Failed to add product to blockchain - /api/products - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:20:29"}
+{"level":"error","message":"Error: Failed to add product to blockchain\n    at exports.addProduct (D:\\foodtrace\\backend\\blockchain\\interact.js:45:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async D:\\foodtrace\\backend\\controllers\\productController.js:114:24","service":"food-tracking-service","timestamp":"2025-04-17 05:20:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:21:21"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:21:21"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:21:35"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:56"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:22:58"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:23:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:23:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:24:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:24:03"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:24:16"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/api/blockchain/addProduct - /api/api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:24:17"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:24:57"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:24:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:02"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:02"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:09"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:20"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:25:26"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:26:36"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:26:36"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:27:02"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:27:02"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:27:14"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:27:21"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:31:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:31:58"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:34:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:34:58"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:35:12"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:35:12"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:35:22"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:37:07"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:37:07"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:39:50"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:39:50"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:40:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:40:05"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:42:34"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:42:34"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:42:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:42:51"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:44:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:44:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:45:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:45:29"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:47:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:47:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:47:36"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:47:36"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:49:24"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:49:24"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:49:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:49:49"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 05:51:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 05:51:25"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:51:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:51:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:53:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:53:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:53:53"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:53:53"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:54:38"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:54:38"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/verify/89504e470d0a1a0a0000000d494844520000019a0000019a01000000001e7db8ce0000033249444154789ced5c5b6eab30109d01a47e8294057429ce0eee92aabba4ee0096921de0cf48a0b99a874d92af728342a8e77c50a03e028be99987c74582d518aaf51c0027199c647092c1490627199c6470d29148686800864e2e1b40ec6604880d00c434e0bccbebad8493362005628c723e23f5c0c6a098d90e6af93d1d6a4eebe0a407523401c02f318b9688fad8009edb09a85719691e49abe0a4839286ae26081744fc625118d87f9cdfe7f57e02276d4a0a6c0caa0cb101eadbec2bb67ed24fe0a497931afbd9f2778f7686103bc0d04f8000cd2403e83873aa9cf43c69904ca2e353492ea0263d0b29da146cf0a47570d24e1a41cb8da1abf9f28ac49241c3e79414e4c927554e3a1009cf5a71e0c041f440d4228515a91ee1b9460924d03a431881a3c8892b1353bac747be47bd381186de7bf339554e7ade6b0c5ca904f820092a39706800e2893d0627a36c0fe15b2efffb4995930e41022d46d258b31e58e152ab97aa076a1172e61a5102096eaad341ec806d83c4752c562243d87f08dc224ab08836450fec26168db819e71a510609eccfbe4de125cb83ae6b885098d710c9c883df7c4e9593b620cd487fb9f6c031a67c7d5bf81203891f2a1e9b3c690d9cb46bf649a37c730b25d59348f69975c3bd46519125493dc2ceee628b25a2708b2847236a3d6872a175a99c8c5a94616d336e11bf9a0437f5495a42495ddf5afc479211b78872b24f4a3528510b0e1ce4a0c9681ee216515264090f0508ab50e5d862a95ebef99c2a276d41aab52122050e93659fd274ab4b60a3b4e43effa43570d24e2b5dc07905e45e080ce30cda1f01b199305cb41ee12b5d85790d503dc831664a410dbeae51d4da678299c5123368cfc46da8e1165180d740bbaa27092d31906ce7ca0d11d629e15ea39c382248c8184f6a1bc44281d05ef98abb68d475cc68e3de7c4e959336dcd30521eddba13e7eb0d7b8a2746adf46140799d32a38c990bb6933b8ab4ebc86ecd708970668f833b278f8da679116317cca5e9e130b8576e737776d97af7dbdca497befe9a2e18c2c0a2c0f236fec1a671d20e58997bf5ee5a4bdd63514ec17f23a675e00bdeb94f0ecf39793d0ff3399c2490627199c647092c1490627199c048a7f0be76f6e85e375320000000049454e44ae426082 - /api/blockchain/verify/89504e470d0a1a0a0000000d494844520000019a0000019a01000000001e7db8ce0000033249444154789ced5c5b6eab30109d01a47e8294057429ce0eee92aabba4ee0096921de0cf48a0b99a874d92af728342a8e77c50a03e028be99987c74582d518aaf51c0027199c647092c1490627199c6470d29148686800864e2e1b40ec6604880d00c434e0bccbebad8493362005628c723e23f5c0c6a098d90e6af93d1d6a4eebe0a407523401c02f318b9688fad8009edb09a85719691e49abe0a4839286ae26081744fc625118d87f9cdfe7f57e02276d4a0a6c0caa0cb101eadbec2bb67ed24fe0a497931afbd9f2778f7686103bc0d04f8000cd2403e83873aa9cf43c69904ca2e353492ea0263d0b29da146cf0a47570d24e1a41cb8da1abf9f28ac49241c3e79414e4c927554e3a1009cf5a71e0c041f440d4228515a91ee1b9460924d03a431881a3c8892b1353bac747be47bd381186de7bf339554e7ade6b0c5ca904f820092a39706800e2893d0627a36c0fe15b2efffb4995930e41022d46d258b31e58e152ab97aa076a1172e61a5102096eaad341ec806d83c4752c562243d87f08dc224ab08836450fec26168db819e71a510609eccfbe4de125cb83ae6b885098d710c9c883df7c4e9593b620cd487fb9f6c031a67c7d5bf81203891f2a1e9b3c690d9cb46bf649a37c730b25d59348f69975c3bd46519125493dc2ceee628b25a2708b2847236a3d6872a175a99c8c5a94616d336e11bf9a0437f5495a42495ddf5afc479211b78872b24f4a3528510b0e1ce4a0c9681ee216515264090f0508ab50e5d862a95ebef99c2a276d41aab52122050e93659fd274ab4b60a3b4e43effa43570d24e2b5dc07905e45e080ce30cda1f01b199305cb41ee12b5d85790d503dc831664a410dbeae51d4da678299c5123368cfc46da8e1165180d740bbaa27092d31906ce7ca0d11d629e15ea39c382248c8184f6a1bc44281d05ef98abb68d475cc68e3de7c4e959336dcd30521eddba13e7eb0d7b8a2746adf46140799d32a38c990bb6933b8ab4ebc86ecd708970668f833b278f8da679116317cca5e9e130b8576e737776d97af7dbdca497befe9a2e18c2c0a2c0f236fec1a671d20e58997bf5ee5a4bdd63514ec17f23a675e00bdeb94f0ecf39793d0ff3399c2490627199c647092c1490627199c048a7f0be76f6e85e375320000000049454e44ae426082 - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 05:54:57"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:04:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:04:58"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:05:15"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:05:15"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:05:49"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:05:49"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:08:05"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:08:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:08:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:08:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:08:53"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:08:53"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:20:02"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:20:02"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:20:23"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:20:23"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:20:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:20:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:15"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:15"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:20"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:20"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:38"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:21:38"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:23:26"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:23:26"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:30:27"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:30:27"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:30:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:30:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/scanQR - /api/blockchain/scanQR - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:32:22"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:44:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:44:25"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 06:55:13"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 06:55:13"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:55:43"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 06:55:43"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-17 07:13:05"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-17 07:13:05"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 07:13:23"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-17 07:13:23"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 04:46:56"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 04:46:56"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 04:52:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 04:52:30"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 04:53:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 04:53:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:55:01"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:55:01"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:58:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:58:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:58:26"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:58:26"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:59:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:59:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 04:59:31"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:00:35"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:00:35"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/blockchain/addProduct - /api/blockchain/addProduct - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:00:52"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:02:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:02:28"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:04:15"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:04:53"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 05:06:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 05:06:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:06:46"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 05:07:29"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 05:07:29"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:08:08"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:08:08"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:08:18"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:09:07"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:10:06"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 05:10:24"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 05:10:24"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:10:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:10:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:10:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:11:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /blockchain/addEvent - /blockchain/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:11:47"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:12:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:12:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:12:51"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:13:30"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:13:34"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:14:10"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:14:11"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 05:14:20"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 05:14:20"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:14:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:14:39"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:14:48"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:15:13"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:15:14"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:15:22"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-22 05:16:13"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-22 05:16:13"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:16:33"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:16:33"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:16:43"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:17:01"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:18:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/supplier/stats - /api/supplier/stats - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:18:46"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:18:57"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:19:45"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:36:40"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:36:42"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:36:44"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:37:30"}
+{"level":"warn","message":"404 - Không tìm thấy - /api/addEvent - /api/addEvent - POST - ::1","service":"food-tracking-service","timestamp":"2025-04-22 05:38:01"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 02:55:32"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 02:55:32"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 03:03:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 03:03:51"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 03:14:11"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 03:14:11"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 03:18:34"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 03:18:34"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 03:32:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 03:32:58"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:20:59"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:20:59"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:24:59"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:24:59"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:29:26"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:29:26"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:32:41"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:32:41"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:33:40"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:33:40"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 04:34:43"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 04:34:43"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:28:49"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:28:49"}
+{"address":"127.0.0.1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","message":"Error sending email: connect ECONNREFUSED 127.0.0.1:587","port":587,"service":"food-tracking-service","stack":"Error: connect ECONNREFUSED 127.0.0.1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1634:16)","syscall":"connect","timestamp":"2025-04-23 05:29:36"}
+{"address":"127.0.0.1","code":"ESOCKET","command":"CONN","errno":-4078,"level":"error","message":"Error sending email: connect ECONNREFUSED 127.0.0.1:587","port":587,"service":"food-tracking-service","stack":"Error: connect ECONNREFUSED 127.0.0.1:587\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1634:16)","syscall":"connect","timestamp":"2025-04-23 05:32:21"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:33:45"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:33:45"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:38:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:38:30"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:46:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:46:39"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:48:17"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:48:17"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:49:36"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:49:36"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:50:03"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:50:03"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 05:55:58"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 05:55:58"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-23 07:26:28"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-23 07:26:28"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 01:09:30"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 01:09:30"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-24 01:10:13"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\sapxong\\backend\\controllers\\authController.js:129:45\n    at asyncUtilWrap (D:\\foodtrace\\sapxong\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\sapxong\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\sapxong\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\sapxong\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-24 01:10:13"}
+{"level":"error","message":"500 - Cannot read properties of null (reading 'id') - /api/auth/me - GET - ::1","service":"food-tracking-service","timestamp":"2025-04-24 01:10:13"}
+{"level":"error","message":"TypeError: Cannot read properties of null (reading 'id')\n    at D:\\foodtrace\\sapxong\\backend\\controllers\\authController.js:129:45\n    at asyncUtilWrap (D:\\foodtrace\\sapxong\\backend\\node_modules\\express-async-handler\\index.js:3:20)\n    at Layer.handleRequest (D:\\foodtrace\\sapxong\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (D:\\foodtrace\\sapxong\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at D:\\foodtrace\\sapxong\\backend\\middlewares\\auth.js:36:5\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","service":"food-tracking-service","timestamp":"2025-04-24 01:10:13"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 01:59:28"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 01:59:28"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 05:39:15"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 05:39:15"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 06:10:22"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 06:10:22"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 06:44:39"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 06:44:39"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 14:04:18"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 14:04:18"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-04-24 14:07:48"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-04-24 14:07:48"}
