@@ -1,99 +1,180 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Traceability DApp</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Traceability System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container { max-width: 800px; }
+        .form-group { margin-bottom: 1rem; }
+        .input-group { margin-bottom: 1rem; }
+    </style>
 </head>
 <body>
-  <h2>Nhập Thông Tin Sản Phẩm (Nhà sản xuất)</h2>
-  <form id="eventForm">
-    <input type="text" id="productName" placeholder="Product Name" required><br>
-    <input type="text" id="actor" placeholder="Actor (Nhà sản xuất,...)" required><br>
-    <input type="text" id="location" placeholder="Location" required><br>
-    <input type="text" id="step" placeholder="Step (Sản xuất, Đóng gói,...)" required><br>
-    <input type="text" id="qualityStatus" placeholder="Quality Status" required><br>
-    <input type="text" id="details" placeholder="Details (Tùy chọn)"><br>
-    <button type="submit">Thêm Sự Kiện</button>
-  </form>
+    <div class="container mt-5">
+        <h1 class="mb-4">Food Traceability System</h1>
+        
+        <!-- Form thêm sản phẩm mới -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Thêm sản phẩm mới</h5>
+            </div>
+            <div class="card-body">
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label for="productId">ID sản phẩm</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="productId" required>
+                            <button type="button" class="btn btn-outline-secondary" id="generateIdBtn">Tự tạo ID</button>
+                        </div>
+                        <small class="form-text text-muted">ID sẽ được tạo tự động theo định dạng SPxxxxx</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productOrigin">Nguồn gốc</label>
+                        <input type="text" class="form-control" id="productOrigin" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                </form>
+            </div>
+        </div>
 
-  <div id="generatedProductId" style="margin-top:10px; font-weight: bold;"></div>
-  <div id="autoQRCode" style="margin-top:10px;"></div>
+        <!-- Form thêm bước mới -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Thêm bước mới</h5>
+            </div>
+            <div class="card-body">
+                <form id="addStepForm">
+                    <div class="form-group">
+                        <label for="stepProductId">ID sản phẩm</label>
+                        <input type="text" class="form-control" id="stepProductId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="actor">Người thực hiện</label>
+                        <input type="text" class="form-control" id="actor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Vị trí</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="step">Bước</label>
+                        <input type="text" class="form-control" id="step" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="qualityStatus">Trạng thái chất lượng</label>
+                        <input type="text" class="form-control" id="qualityStatus" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="details">Chi tiết</label>
+                        <textarea class="form-control" id="details"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm bước</button>
+                </form>
+            </div>
+        </div>
 
-  <hr>
-
-  <h2>Truy Xuất Thông Tin Sản Phẩm</h2>
-  <input type="text" id="searchByName" placeholder="Nhập tên sản phẩm">
-  <button id="searchByNameBtn">Tìm Sản Phẩm</button>
-  <div id="searchResult"></div>
+        <!-- Form tìm kiếm sản phẩm -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Tìm kiếm sản phẩm</h5>
+            </div>
+            <div class="card-body">
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="searchId">ID sản phẩm</label>
+                        <input type="text" class="form-control" id="searchId" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
   <script>
-    document.getElementById('eventForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const productName = document.getElementById('productName').value;
-      const actor = document.getElementById('actor').value;
-      const location = document.getElementById('location').value;
-      const step = document.getElementById('step').value;
-      const qualityStatus = document.getElementById('qualityStatus').value;
-      const details = document.getElementById('details').value;
-
-      try {
-        const res = await axios.post('/api/addEvent', {
-          productName, actor, location, step, qualityStatus, details
+        // Xử lý nút tạo ID tự động
+        document.getElementById('generateIdBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/getNextProductId');
+                const result = await response.json();
+                if (result.status === 'success') {
+                    document.getElementById('productId').value = result.productId;
+                } else {
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
         });
 
-        document.getElementById('eventForm').reset();
-        document.getElementById('generatedProductId').innerText =
-          `Sản phẩm đã được tạo với Product ID: ${res.data.productId}`;
+        // Xử lý form thêm sản phẩm
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+            const data = {
+                id: document.getElementById('productId').value,
+                name: document.getElementById('productName').value,
+                origin: document.getElementById('productOrigin').value
+            };
 
-        // Hiển thị QR code link sản phẩm
-        document.getElementById('autoQRCode').innerHTML = `
-          <p>Thông tin sản phẩm:</p>
-          <a href="${res.data.productUrl}" target="_blank">${res.data.productUrl}</a><br>
-          <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(res.data.productUrl)}&size=200x200" alt="QR Code">
-        `;
-      } catch (err) {
-        console.error(err);
-        alert('Lỗi: ' + err.response.data.message);
-      }
-    });
+            try {
+                const response = await fetch('/api/addProduct', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Thêm sản phẩm thành công!');
+                    window.location.href = `/product/${data.id}`;
+                } else {
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        });
 
-    // Tìm theo tên sản phẩm
-    document.getElementById('searchByNameBtn').addEventListener('click', async () => {
-      const name = document.getElementById('searchByName').value.trim();
-      if (!name) {
-        alert("Vui lòng nhập tên sản phẩm.");
-        return;
-      }
+        // Xử lý form thêm bước
+        document.getElementById('addStepForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                id: document.getElementById('stepProductId').value,
+                actor: document.getElementById('actor').value,
+                location: document.getElementById('location').value,
+                step: document.getElementById('step').value,
+                qualityStatus: document.getElementById('qualityStatus').value,
+                details: document.getElementById('details').value
+            };
 
-      try {
-        const res = await axios.get(`/api/getEventsByName/${encodeURIComponent(name)}`);
-        if (res.data.events.length > 0) {
-          let html = '<h3>Kết quả tìm kiếm:</h3>';
-          res.data.events.forEach(prod => {
-            let timeString = new Date(prod.timestamp).toLocaleString();
-            html += `
-              <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-                <p><strong>ID:</strong> ${prod.productId}</p>
-                <p><strong>Tên sản phẩm:</strong> ${prod.productName}</p>
-                <p><strong>Nhà sản xuất:</strong> ${prod.actor}</p>
-                <p><strong>Location:</strong> ${prod.location}</p>
-                <p><strong>Bước:</strong> ${prod.step}</p>
-                <p><strong>Chất lượng:</strong> ${prod.qualityStatus}</p>
-                <p><strong>Chi tiết:</strong> ${prod.details}</p>
-                <p><strong>Thời gian:</strong> ${timeString}</p>
-              </div>
-            `;
-          });
-          document.getElementById('searchResult').innerHTML = html;
+            try {
+                const response = await fetch('/api/addStep', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Thêm bước thành công!');
+                    window.location.href = `/product/${data.id}`;
         } else {
-          document.getElementById('searchResult').innerHTML = '<p style="color:red;">Không tìm thấy sản phẩm</p>';
-        }
-      } catch (err) {
-        console.error(err);
-        document.getElementById('searchResult').innerHTML = '<p style="color:red;">Không tìm thấy sản phẩm</p>';
-      }
-    });
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        });
+
+        // Xử lý form tìm kiếm
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const productId = document.getElementById('searchId').value;
+            window.location.href = `/product/${productId}`;
+        });
   </script>
 </body>
 </html>

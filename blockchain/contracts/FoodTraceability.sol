@@ -2,8 +2,15 @@
 pragma solidity ^0.8.0;
 
 contract FoodTraceability {
-    struct Event {
-        string productName;
+    struct Product {
+        string name;
+        string origin;
+        uint256 createdAt;
+        address createdBy;
+        bool exists;
+    }
+
+    struct ProductStep {
         string actor;
         string location;
         string step;
@@ -12,40 +19,60 @@ contract FoodTraceability {
         uint256 timestamp;
     }
 
-    mapping(string => Event[]) private productEvents;
-    string[] private productIds;
+    mapping(bytes32 => Product) public products;
+    mapping(bytes32 => ProductStep[]) public productHistory;
+    bytes32[] public productIds;
 
-    function addEvent(
-        string memory productId,
-        string memory productName,
-        string memory actor,
-        string memory location,
-        string memory step,
-        string memory qualityStatus,
-        string memory details
-    ) public {
-        Event memory newEvent = Event({
-            productName: productName,
-            actor: actor,
-            location: location,
-            step: step,
-            qualityStatus: qualityStatus,
-            details: details,
+    event ProductAdded(bytes32 indexed productId, string name, address createdBy);
+    event StepAdded(bytes32 indexed productId, string step, string actor);
+
+    function addProduct(string memory _id, string memory _name, string memory _origin) public {
+        bytes32 productId = keccak256(abi.encodePacked(_id));
+        require(!products[productId].exists, "Product already exists");
+        
+        products[productId] = Product({
+            name: _name,
+            origin: _origin,
+            createdAt: block.timestamp,
+            createdBy: msg.sender,
+            exists: true
+        });
+        
+        productIds.push(productId);
+        emit ProductAdded(productId, _name, msg.sender);
+    }
+
+    function addStep(string memory _id, string memory _actor, string memory _location, 
+                    string memory _step, string memory _qualityStatus, string memory _details) public {
+        bytes32 productId = keccak256(abi.encodePacked(_id));
+        require(products[productId].exists, "Product does not exist");
+        
+        ProductStep memory newStep = ProductStep({
+            actor: _actor,
+            location: _location,
+            step: _step,
+            qualityStatus: _qualityStatus,
+            details: _details,
             timestamp: block.timestamp
         });
-
-        if (productEvents[productId].length == 0) {
-            productIds.push(productId);
-        }
-
-        productEvents[productId].push(newEvent);
+        
+        productHistory[productId].push(newStep);
+        emit StepAdded(productId, _step, _actor);
     }
 
-    function getEvents(string memory productId) public view returns (Event[] memory) {
-        return productEvents[productId];
+    function getProduct(string memory _id) public view returns (Product memory) {
+        bytes32 productId = keccak256(abi.encodePacked(_id));
+        require(products[productId].exists, "Product does not exist");
+        return products[productId];
     }
 
-    function getAllProductIds() public view returns (string[] memory) {
-        return productIds;
+    function getProductHistory(string memory _id) public view returns (ProductStep[] memory) {
+        bytes32 productId = keccak256(abi.encodePacked(_id));
+        require(products[productId].exists, "Product does not exist");
+        return productHistory[productId];
+    }
+
+    function getProductCount() public view returns (uint256) {
+        return productIds.length;
     }
 }

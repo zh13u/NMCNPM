@@ -1,56 +1,170 @@
 {
   "abi": [
     {
+      "anonymous": false,
       "inputs": [
         {
-          "internalType": "string",
+          "indexed": true,
+          "internalType": "bytes32",
           "name": "productId",
-          "type": "string"
+          "type": "bytes32"
         },
         {
+          "indexed": false,
           "internalType": "string",
-          "name": "productName",
+          "name": "name",
           "type": "string"
         },
         {
-          "internalType": "string",
-          "name": "actor",
-          "type": "string"
+          "indexed": false,
+          "internalType": "address",
+          "name": "createdBy",
+          "type": "address"
+        }
+      ],
+      "name": "ProductAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "productId",
+          "type": "bytes32"
         },
         {
-          "internalType": "string",
-          "name": "location",
-          "type": "string"
-        },
-        {
+          "indexed": false,
           "internalType": "string",
           "name": "step",
           "type": "string"
         },
         {
+          "indexed": false,
           "internalType": "string",
-          "name": "qualityStatus",
+          "name": "actor",
+          "type": "string"
+        }
+      ],
+      "name": "StepAdded",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_id",
           "type": "string"
         },
         {
           "internalType": "string",
-          "name": "details",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_origin",
           "type": "string"
         }
       ],
-      "name": "addEvent",
+      "name": "addProduct",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "getAllProductIds",
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_id",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_actor",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_location",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_step",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_qualityStatus",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_details",
+          "type": "string"
+        }
+      ],
+      "name": "addStep",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_id",
+          "type": "string"
+        }
+      ],
+      "name": "getProduct",
       "outputs": [
         {
-          "internalType": "string[]",
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "origin",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "createdAt",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "createdBy",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "exists",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct FoodTraceability.Product",
           "name": "",
-          "type": "string[]"
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getProductCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -60,19 +174,14 @@
       "inputs": [
         {
           "internalType": "string",
-          "name": "productId",
+          "name": "_id",
           "type": "string"
         }
       ],
-      "name": "getEvents",
+      "name": "getProductHistory",
       "outputs": [
         {
           "components": [
-            {
-              "internalType": "string",
-              "name": "productName",
-              "type": "string"
-            },
             {
               "internalType": "string",
               "name": "actor",
@@ -104,9 +213,116 @@
               "type": "uint256"
             }
           ],
-          "internalType": "struct FoodTraceability.Event[]",
+          "internalType": "struct FoodTraceability.ProductStep[]",
           "name": "",
           "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "productHistory",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "actor",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "location",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "step",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "qualityStatus",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "details",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "productIds",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "products",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "origin",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "createdAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "createdBy",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "exists",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",

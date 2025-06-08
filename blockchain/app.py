@@ -25,7 +25,7 @@ else:
 
 # Load ABI từ file FoodTraceability.json
 current_dir = os.path.dirname(os.path.abspath(__file__))
-abi_path = os.path.join(current_dir, 'FoodTraceability.json')
+abi_path = os.path.join(current_dir, 'contracts', 'FoodTraceability.json')
 
 with open(abi_path, 'r') as f:
     contract_json = json.load(f)
@@ -100,7 +100,7 @@ try:
     if CONTRACT_ADDRESS:
         contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=contract_abi)
         # Kiểm tra contract tồn tại bằng cách gọi một hàm view
-        contract.functions.getAllProductIds().call()
+        contract.functions.getProductCount().call()
         print(f"Using existing contract at: {CONTRACT_ADDRESS}")
     else:
         raise Exception("No contract address configured")
@@ -150,25 +150,22 @@ def index():
     return render_template('index.html')
 
 
-# API: Thêm sự kiện vào blockchain
-@app.route('/api/addEvent', methods=['POST'])
-def add_event():
+# API: Thêm sản phẩm mới
+@app.route('/api/addProduct', methods=['POST'])
+def add_product():
     data = request.json
 
-    productName = data.get('productName')
-    actor = data.get('actor')
-    location = data.get('location')
-    step = data.get('step')
-    qualityStatus = data.get('qualityStatus')
-    details = data.get('details', '')
+    product_id = data.get('id')
+    name = data.get('name')
+    origin = data.get('origin')
 
-    # Tạo productId tự động
-    productId = get_next_product_id()
+    if not all([product_id, name, origin]):
+        return jsonify({'status': 'error', 'message': 'Missing required fields'}), 400
 
     try:
         nonce = w3.eth.get_transaction_count(account_address)
-        txn = contract.functions.addEvent(
-            productId, productName, actor, location, step, qualityStatus, details
+        txn = contract.functions.addProduct(
+            product_id, name, origin
         ).build_transaction({
             'from': account_address,
             'nonce': nonce,
@@ -183,186 +180,198 @@ def add_event():
         if receipt.status != 1:
             return jsonify({'status': 'error', 'message': 'Transaction failed'}), 500
 
-        local_ip = get_local_ip()
-        url = f"http://{local_ip}:5000/product/name/{productName}"
-
         return jsonify({
             'status': 'success',
-            'productId': productId,
-            'productName': productName,
-            'txHash': tx_hash.hex(),
-            'productUrl': url
+            'productId': product_id,
+            'name': name,
+            'txHash': tx_hash.hex()
         })
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-# API: Lấy lịch sử sự kiện của sản phẩm theo ID
-@app.route('/api/getEvents/<productId>', methods=['GET'])
-def get_events_by_id(productId):
-    try:
-        events = contract.functions.getEvents(productId).call()
 
-        # Định dạng dữ liệu sự kiện trước khi trả về
-        event_list = []
-        for event in events:
-            event_list.append({
-                'productName': event[0],
-                'actor': event[1],
-                'location': event[2],
-                'step': event[3],
-                'qualityStatus': event[4],
-                'details': event[5],
-                'timestamp': datetime.fromtimestamp(event[6]).isoformat()
+# API: Thêm bước mới cho sản phẩm
+@app.route('/api/addStep', methods=['POST'])
+def add_step():
+    data = request.json
+
+    product_id = data.get('id')
+    actor = data.get('actor')
+    location = data.get('location')
+    step = data.get('step')
+    quality_status = data.get('qualityStatus')
+    details = data.get('details')
+
+    if not all([product_id, actor, location, step, quality_status]):
+        return jsonify({'status': 'error', 'message': 'Missing required fields'}), 400
+
+    try:
+        nonce = w3.eth.get_transaction_count(account_address)
+        txn = contract.functions.addStep(
+            product_id, actor, location, step, quality_status, details or ''
+        ).build_transaction({
+            'from': account_address,
+            'nonce': nonce,
+            'gasPrice': w3.to_wei('50', 'gwei'),
+            'gas': 3000000
+        })
+
+        signed_txn = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
+        tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
+        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        if receipt.status != 1:
+            return jsonify({'status': 'error', 'message': 'Transaction failed'}), 500
+
+        return jsonify({
+            'status': 'success',
+            'productId': product_id,
+            'step': step,
+            'txHash': tx_hash.hex()
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+# API: Lấy thông tin sản phẩm
+@app.route('/api/getProduct/<product_id>', methods=['GET'])
+def get_product(product_id):
+    try:
+        product = contract.functions.getProduct(product_id).call()
+        return jsonify({
+            'status': 'success',
+            'product': {
+                'name': product[0],
+                'origin': product[1],
+                'createdAt': datetime.fromtimestamp(product[2]).isoformat(),
+                'createdBy': product[3],
+                'exists': product[4]
+            }
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+# API: Lấy lịch sử sản phẩm
+@app.route('/api/getProductHistory/<product_id>', methods=['GET'])
+def get_product_history(product_id):
+    try:
+        history = contract.functions.getProductHistory(product_id).call()
+        formatted_history = []
+        
+        for step in history:
+            formatted_history.append({
+                'actor': step[0],
+                'location': step[1],
+                'step': step[2],
+                'qualityStatus': step[3],
+                'details': step[4],
+                'timestamp': datetime.fromtimestamp(step[5]).isoformat()
             })
 
-        return jsonify({'status': 'success', 'events': event_list})
+        return jsonify({
+            'status': 'success',
+            'history': formatted_history
+        })
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-# API mới: Lấy lịch sử sự kiện của sản phẩm theo TÊN
-@app.route('/api/getEventsByName/<productName>', methods=['GET'])
-def get_events_by_name(productName):
+# API: Lấy ID sản phẩm tiếp theo
+@app.route('/api/getNextProductId', methods=['GET'])
+def get_next_product_id():
     try:
-        # Lấy tất cả productId từ contract
-        product_ids = contract.functions.getAllProductIds().call()
-
-        # Tìm productId có productName trùng với tham số
-        matching_events = []
-
-        for productId in product_ids:
-            events = contract.functions.getEvents(productId).call()
-
-            # Kiểm tra xem có sự kiện nào có productName trùng khớp không
-            for event in events:
-                if event[0] == productName:  # Kiểm tra productName
-                    matching_events.append({
-                        'productId': productId,
-                        'productName': event[0],
-                        'actor': event[1],
-                        'location': event[2],
-                        'step': event[3],
-                        'qualityStatus': event[4],
-                        'details': event[5],
-                        'timestamp': datetime.fromtimestamp(event[6]).isoformat()
-                    })
-
-        if not matching_events:
-            return jsonify({'status': 'error', 'message': f'Không tìm thấy sản phẩm có tên: {productName}'}), 404
-
-        return jsonify({'status': 'success', 'events': matching_events})
+        # Lấy số lượng sản phẩm hiện tại
+        count = contract.functions.getProductCount().call()
+        # Tạo ID mới theo định dạng SPxxxxx
+        next_id = f"SP{count + 1:05d}"
+        return jsonify({
+            'status': 'success',
+            'productId': next_id
+        })
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
-# Route hiển thị chi tiết sản phẩm theo ID
-@app.route('/product/<productId>')
-def product_detail_by_id(productId):
+# Route hiển thị chi tiết sản phẩm
+@app.route('/product/<product_id>')
+def product_detail(product_id):
     try:
-        events = contract.functions.getEvents(productId).call()
-        formatted_events = []
-
-        for event in events:
-            formatted_events.append({
-                'productName': event[0],
-                'actor': event[1],
-                'location': event[2],
-                'step': event[3],
-                'qualityStatus': event[4],
-                'details': event[5],
-                'timestamp': datetime.fromtimestamp(event[6]).strftime('%Y-%m-%d %H:%M:%S')
+        product = contract.functions.getProduct(product_id).call()
+        history = contract.functions.getProductHistory(product_id).call()
+        
+        formatted_history = []
+        for step in history:
+            formatted_history.append({
+                'actor': step[0],
+                'location': step[1],
+                'step': step[2],
+                'qualityStatus': step[3],
+                'details': step[4],
+                'timestamp': datetime.fromtimestamp(step[5]).strftime('%Y-%m-%d %H:%M:%S')
             })
 
-        return render_template('product.html', productId=productId, events=formatted_events)
+        return render_template('product.html', 
+            productId=product_id,
+            product={
+                'name': product[0],
+                'origin': product[1],
+                'createdAt': datetime.fromtimestamp(product[2]).strftime('%Y-%m-%d %H:%M:%S'),
+                'createdBy': product[3]
+            },
+            history=formatted_history
+        )
     except Exception as e:
         return f"Lỗi: {str(e)}"
 
 
-# Route mới: Hiển thị chi tiết sản phẩm theo TÊN
-@app.route('/product/name/<productName>')
-def product_detail_by_name(productName):
+# Hàm tạo QR code
+def generate_qr_code(product_id):
+    # Tạo URL để truy cập thông tin sản phẩm
+    base_url = f"http://{get_local_ip()}:5000"
+    product_url = f"{base_url}/product/{product_id}"
+    
+    # Tạo QR code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(product_url)
+    qr.make(fit=True)
+    
+    # Tạo ảnh QR code
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Chuyển ảnh thành bytes
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='PNG')
+    img_byte_arr.seek(0)
+    
+    return img_byte_arr
+
+
+# API: Tạo và trả về QR code
+@app.route('/api/getQRCode/<product_id>', methods=['GET'])
+def get_qr_code(product_id):
     try:
-        # Lấy tất cả productId từ contract
-        product_ids = contract.functions.getAllProductIds().call()
-
-        all_events = []
-        found_product_id = None
-
-        # Tìm tất cả sự kiện của sản phẩm có tên trùng khớp
-        for productId in product_ids:
-            events = contract.functions.getEvents(productId).call()
-
-            for event in events:
-                if event[0] == productName:  # Nếu tên sản phẩm trùng khớp
-                    all_events.append({
-                        'productId': productId,
-                        'productName': event[0],
-                        'actor': event[1],
-                        'location': event[2],
-                        'step': event[3],
-                        'qualityStatus': event[4],
-                        'details': event[5],
-                        'timestamp': datetime.fromtimestamp(event[6]).strftime('%Y-%m-%d %H:%M:%S')
-                    })
-                    if not found_product_id:
-                        found_product_id = productId
-
-        if not all_events:
-            return f"Không tìm thấy sản phẩm có tên: {productName}"
-
-        return render_template('product.html',
-                               productName=productName,
-                               productId=found_product_id,
-                               events=all_events)
-    except Exception as e:
-        return f"Lỗi: {str(e)}"
-
-
-# API: Lấy danh sách tất cả sản phẩm
-@app.route('/api/getAllProducts', methods=['GET'])
-def get_all_products():
-    try:
-        product_ids = contract.functions.getAllProductIds().call()
-        products = []
-
-        for productId in product_ids:
-            events = contract.functions.getEvents(productId).call()
-            if events:  # Nếu có sự kiện cho sản phẩm này
-                # Lấy tên sản phẩm từ sự kiện đầu tiên
-                productName = events[0][0]
-                products.append({
-                    'productId': productId,
-                    'productName': productName
-                })
-
-        return jsonify({'status': 'success', 'products': products})
+        # Kiểm tra sản phẩm tồn tại
+        product = contract.functions.getProduct(product_id).call()
+        if not product[4]:  # product.exists
+            return jsonify({'status': 'error', 'message': 'Product not found'}), 404
+        
+        # Tạo QR code
+        qr_code = generate_qr_code(product_id)
+        
+        # Trả về ảnh QR code
+        return send_file(
+            qr_code,
+            mimetype='image/png',
+            as_attachment=False
+        )
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
-
-
-# Route: Hiển thị tất cả sản phẩm
-@app.route('/products')
-def all_products():
-    try:
-        product_ids = contract.functions.getAllProductIds().call()
-        products = []
-
-        for productId in product_ids:
-            events = contract.functions.getEvents(productId).call()
-            if events:
-                productName = events[0][0]
-                latest_event = events[-1]
-                products.append({
-                    'productId': productId,
-                    'productName': productName,
-                    'latestStep': latest_event[3],
-                    'latestTimestamp': datetime.fromtimestamp(latest_event[6]).strftime('%Y-%m-%d %H:%M:%S')
-                })
-
-        return render_template('products'
-                               '.html', products=products)
-    except Exception as e:
-        return f"Lỗi: {str(e)}"
 
 
 if __name__ == '__main__':
