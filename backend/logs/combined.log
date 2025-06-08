@@ -566,3 +566,8 @@
 {"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-05-20 19:35:33"}
 {"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-05-20 19:42:05"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-05-20 19:42:05"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-03 05:21:11"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-03 05:21:11"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-06-03 05:21:49"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-03 05:29:06"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-03 05:29:06"}

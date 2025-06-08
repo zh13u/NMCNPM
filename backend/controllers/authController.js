@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const crypto = require('crypto');
-const { sendEmail, sendRegistrationConfirmationEmail } = require('../utils/emailService');
 
 // @desc    Đăng ký người dùng
 // @route   POST /api/auth/register
@@ -49,24 +48,11 @@ exports.register = asyncHandler(async (req, res) => {
       address,
       phone,
       taxCode,
-      role: role // Sử dụng trực tiếp role từ frontend
+      role: role
     };
 
     // Tạo người dùng mới
     const user = await User.create(userData);
-
-    try {
-      console.log('Bắt đầu gửi email xác nhận đến:', user.email);
-      // Gửi email xác nhận đăng ký
-      const emailResult = await sendRegistrationConfirmationEmail(user);
-      console.log('Email đã được gửi thành công:', emailResult);
-    } catch (error) {
-      console.error('Lỗi khi gửi email xác nhận:', error);
-      console.error('Chi tiết lỗi:', error.message);
-      console.error('Stack trace:', error.stack);
-      // Không trả về lỗi nếu gửi email thất bại, vẫn cho phép đăng ký thành công
-    }
-
     sendTokenResponse(user, 201, res);
 });
 
