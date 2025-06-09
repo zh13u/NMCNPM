@@ -16,6 +16,7 @@ import About from './pages/About';
 import SupplierQRScanPage from './pages/supplier/QRScanPage';
 import AddProductPage from './pages/supplier/AddProductPage';
 import ProductsPage from './pages/supplier/ProductsPage';
+import AdminLogin from './pages/AdminLogin';
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
@@ -102,6 +103,7 @@ const App: React.FC = () => {
             {/* Auth routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/admin" element={<AdminLogin />} />
 
             {/* Admin routes */}
             <Route path="/admin/dashboard" element={

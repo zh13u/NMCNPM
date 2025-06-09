@@ -600,3 +600,14 @@
 {"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 16:58:36"}
 {"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 18:17:33"}
 {"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 18:17:33"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 19:46:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 19:46:51"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 19:51:11"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 19:51:11"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 19:52:05"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 19:52:05"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 19:56:11"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 19:56:11"}
+{"level":"info","message":"Máy chủ đang chạy development trên cổng 5000","service":"food-tracking-service","timestamp":"2025-06-09 20:08:25"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"food-tracking-service","timestamp":"2025-06-09 20:08:25"}
+{"level":"warn","message":"404 - Không tìm thấy - /favicon.ico - /favicon.ico - GET - ::1","service":"food-tracking-service","timestamp":"2025-06-09 20:20:24"}

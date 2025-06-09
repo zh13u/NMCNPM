@@ -5,7 +5,7 @@ export interface IUser extends mongoose.Document {
   name: string;
   email: string;
   password: string;
-  role: 'supplier' | 'distributor' | 'retailer' | 'customer';
+  role: 'admin' | 'supplier' | 'distributor' | 'retailer' | 'customer';
   company?: string;
   address?: string;
   phone?: string;
@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['supplier', 'distributor', 'retailer', 'customer'],
+    enum: ['admin', 'supplier', 'distributor', 'retailer', 'customer'],
     required: [true, 'Please provide a role']
   },
   company: {

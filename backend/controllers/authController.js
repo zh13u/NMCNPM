@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const crypto = require('crypto');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // @desc    Đăng ký người dùng
 // @route   POST /api/auth/register
@@ -61,6 +63,22 @@ exports.register = asyncHandler(async (req, res) => {
 // @access  Public
 exports.login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  // Nếu là tài khoản admin cứng
+  if (
+    email === process.env.ADMIN_EMAIL &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    return res.status(200).json({
+      success: true,
+      token: 'admin-token', // hoặc tạo JWT nếu muốn
+      user: {
+        email: process.env.ADMIN_EMAIL,
+        role: 'admin',
+        name: 'Admin'
+      }
+    });
+  }
 
   // Validate email & password
   if (!email || !password) {
