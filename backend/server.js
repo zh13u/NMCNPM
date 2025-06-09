@@ -11,7 +11,6 @@ const fetch = require('node-fetch');
 
 // Import routes
 const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
 const searchRoutes = require('./routes/search');
 const trackingRoutes = require('./routes/tracking');
@@ -51,7 +50,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/tracking', trackingRoutes);

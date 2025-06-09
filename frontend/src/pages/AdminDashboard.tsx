@@ -8,36 +8,36 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  AppBar,
   CssBaseline,
   Divider,
-  Tabs,
-  Tab,
+  Avatar,
   Paper,
 } from '@mui/material';
-import { PeopleAlt, Inventory2 } from '@mui/icons-material';
+import {
+  PeopleAlt,
+  Inventory2,
+  Logout,
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import AccountManagement from './admin/AccountManagement';
 import ProductManagement from './admin/ProductManagement';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const AdminDashboard: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
+  const handleLogout = () => {
+    logout();
+    navigate('/admin');
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(135deg, #18122B 0%, #232526 100%)' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', background: '#f5f5f5' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: 1201, bgcolor: '#232526', boxShadow: 'none', borderBottom: '1px solid #333' }}>
-        <Toolbar>
-          <Typography variant="h5" fontWeight={800} sx={{ letterSpacing: 2, color: '#fff' }}>
-            Admin Panel
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Drawer
         variant="permanent"
         sx={{
@@ -46,22 +46,113 @@ const AdminDashboard: React.FC = () => {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: 'border-box',
-            bgcolor: '#232526',
-            color: '#fff',
-            borderRight: '1px solid #333',
+            bgcolor: '#fff',
+            borderRight: '1px solid #e0e0e0',
           },
         }}
       >
         <Toolbar />
-        <Divider sx={{ bgcolor: '#333' }} />
-        <List>
-          <ListItem button selected={selectedTab === 0} onClick={() => setSelectedTab(0)}>
-            <ListItemIcon sx={{ color: '#fff' }}><PeopleAlt /></ListItemIcon>
-            <ListItemText primary="Tài khoản" />
+        <Box sx={{ p: 2 }}>
+          <Paper 
+            elevation={0} 
+            sx={{ 
+              p: 2, 
+              bgcolor: '#f8f9fa', 
+              borderRadius: 2,
+              border: '1px solid #e0e0e0'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+              <Avatar sx={{ bgcolor: '#1976d2', width: 48, height: 48 }}>
+                {user?.username?.charAt(0).toUpperCase()}
+              </Avatar>
+              <Box>
+                <Typography variant="subtitle1" fontWeight={600}>
+                  {user?.username}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Admin
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+        <Divider />
+        <List sx={{ px: 2 }}>
+          <ListItem 
+            button 
+            selected={selectedTab === 0} 
+            onClick={() => setSelectedTab(0)}
+            sx={{
+              borderRadius: 2,
+              mb: 1,
+              '&.Mui-selected': {
+                bgcolor: '#e3f2fd',
+                '&:hover': {
+                  bgcolor: '#e3f2fd',
+                },
+              },
+            }}
+          >
+            <ListItemIcon sx={{ color: selectedTab === 0 ? '#1976d2' : '#666' }}>
+              <PeopleAlt />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Quản lý tài khoản" 
+              primaryTypographyProps={{
+                fontWeight: selectedTab === 0 ? 600 : 400,
+                color: selectedTab === 0 ? '#1976d2' : 'inherit',
+              }}
+            />
           </ListItem>
-          <ListItem button selected={selectedTab === 1} onClick={() => setSelectedTab(1)}>
-            <ListItemIcon sx={{ color: '#fff' }}><Inventory2 /></ListItemIcon>
-            <ListItemText primary="Tạo tài khoản" />
+          <ListItem 
+            button 
+            selected={selectedTab === 1} 
+            onClick={() => setSelectedTab(1)}
+            sx={{
+              borderRadius: 2,
+              mb: 1,
+              '&.Mui-selected': {
+                bgcolor: '#e3f2fd',
+                '&:hover': {
+                  bgcolor: '#e3f2fd',
+                },
+              },
+            }}
+          >
+            <ListItemIcon sx={{ color: selectedTab === 1 ? '#1976d2' : '#666' }}>
+              <Inventory2 />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Tạo tài khoản" 
+              primaryTypographyProps={{
+                fontWeight: selectedTab === 1 ? 600 : 400,
+                color: selectedTab === 1 ? '#1976d2' : 'inherit',
+              }}
+            />
+          </ListItem>
+          <Divider sx={{ my: 2 }} />
+          <ListItem 
+            button 
+            onClick={handleLogout}
+            sx={{
+              borderRadius: 2,
+              color: '#d32f2f',
+              '&:hover': {
+                bgcolor: '#ffebee',
+              },
+            }}
+          >
+            <ListItemIcon sx={{ color: '#d32f2f' }}>
+              <Logout />
+            </ListItemIcon>
+            <ListItemText 
+              primary="Đăng xuất" 
+              primaryTypographyProps={{
+                fontWeight: 500,
+                color: '#d32f2f',
+              }}
+            />
           </ListItem>
         </List>
       </Drawer>
@@ -69,17 +160,11 @@ const AdminDashboard: React.FC = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          minHeight: '100vh',
-          p: 4,
-          background: 'linear-gradient(135deg, #18122B 0%, #232526 100%)',
-          pl: 0,
+          p: 3,
+          bgcolor: '#f5f5f5',
         }}
       >
         <Toolbar />
-        {/* <Tabs value={selectedTab} onChange={handleTabChange} sx={{ mb: 3 }}>
-          <Tab label="Tài khoản" />
-          <Tab label="Sản phẩm" />
-        </Tabs> */}
         {selectedTab === 0 && <AccountManagement />}
         {selectedTab === 1 && <ProductManagement />}
       </Box>

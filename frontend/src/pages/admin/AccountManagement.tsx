@@ -197,7 +197,6 @@ const AccountManagement: React.FC = () => {
           <TextField label="Email" name="email" value={editForm.email} onChange={handleEditChange} fullWidth />
           <TextField label="Vai trò" name="role" value={editForm.role} onChange={handleEditChange} select fullWidth>
             <MenuItem value="supplier">Supplier</MenuItem>
-            <MenuItem value="customer">Customer</MenuItem>
             <MenuItem value="admin">Admin</MenuItem>
           </TextField>
           <TextField label="Địa chỉ" name="address" value={editForm.address} onChange={handleEditChange} fullWidth />
