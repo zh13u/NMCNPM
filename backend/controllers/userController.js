@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Product = require('../models/Product');
 const asyncHandler = require('express-async-handler');
 
 // @desc    Lấy tất cả người dùng
@@ -6,11 +7,15 @@ const asyncHandler = require('express-async-handler');
 // @access  Private (admin)
 exports.getUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
-  
+  // Lấy số sản phẩm đã thêm cho từng user
+  const usersWithProductCount = await Promise.all(users.map(async (user) => {
+    const count = await Product.countDocuments({ supplier: user._id });
+    return { ...user.toObject(), productCount: count };
+  }));
   res.status(200).json({
     success: true,
-    count: users.length,
-    data: users
+    count: usersWithProductCount.length,
+    data: usersWithProductCount
   });
 });
 
