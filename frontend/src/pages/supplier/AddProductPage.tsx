@@ -190,9 +190,6 @@ const AddProductPage: React.FC = () => {
                 <Typography variant="body1" gutterBottom>
                   Tên Sản Phẩm: {successData.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Transaction Hash: {successData.txHash}
-                </Typography>
               </CardContent>
             </Card>
           )}
@@ -219,7 +216,7 @@ const AddProductPage: React.FC = () => {
                 Quét mã QR để xem thông tin sản phẩm
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Hoặc truy cập: <a href={`http://192.168.1.8:5000/product/${successData.productId}`} target="_blank" rel="noopener noreferrer">http://192.168.1.8:5000/product/{successData.productId}</a>
+                Hoặc truy cập: <a href={`${BLOCKCHAIN_API}/product/${successData.productId}`} target="_blank" rel="noopener noreferrer">{`${BLOCKCHAIN_API}/product/${successData.productId}`}</a>
               </Typography>
             </Box>
           )}
