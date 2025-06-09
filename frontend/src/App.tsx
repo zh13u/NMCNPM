@@ -10,17 +10,9 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
 import SupplierDashboard from './pages/supplier/SupplierDashboard';
-import CustomerDashboard from './pages/CustomerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import Business from './pages/Business';
-import Products from './pages/Products';
 import About from './pages/About';
-import ProductDetail from './pages/ProductDetail';
-import Tracking from './pages/Tracking';
-import Profile from './pages/Profile';
-import Settings from './pages/Settings';
 import SupplierQRScanPage from './pages/supplier/QRScanPage';
 import AddProductPage from './pages/supplier/AddProductPage';
 import ProductsPage from './pages/supplier/ProductsPage';
@@ -52,25 +44,30 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Kiểm tra đăng nhập
-  if (!user) {
+  // Nếu không có vai trò yêu cầu, cho phép truy cập
+  if (allowedRoles.length === 0) {
+    return <>{element}</>;
+  }
+
+  // Kiểm tra đăng nhập cho các vai trò yêu cầu xác thực
+  if (!user && allowedRoles.some(role => role !== UserRole.USER)) {
     return <Navigate to="/login" replace />;
   }
 
   // Kiểm tra vai trò
-  if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
+  if (allowedRoles.length > 0 && !allowedRoles.includes(user?.role || UserRole.USER)) {
     // Chuyển hướng dựa trên vai trò của người dùng
-    if (user.role === UserRole.ADMIN) {
+    if (user?.role === UserRole.ADMIN) {
       return <Navigate to="/admin/dashboard" replace />;
-    } else if (user.role === UserRole.SUPPLIER) {
+    } else if (user?.role === UserRole.SUPPLIER) {
       return <Navigate to="/supplier/dashboard" replace />;
     } else {
-      return <Navigate to="/customer/products" replace />;
+      return <Navigate to="/" replace />;
     }
   }
 
   // Kiểm tra quyền
-  if (requiredPermissions.length > 0) {
+  if (requiredPermissions.length > 0 && user) {
     const hasAllPermissions = requiredPermissions.every(permission =>
       hasPermission(permission)
     );
@@ -82,7 +79,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       } else if (user.role === UserRole.SUPPLIER) {
         return <Navigate to="/supplier/dashboard" replace />;
       } else {
-        return <Navigate to="/customer/products" replace />;
+        return <Navigate to="/" replace />;
       }
     }
   }
@@ -99,16 +96,14 @@ const App: React.FC = () => {
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<Layout><Home /></Layout>} />
+            <Route path="/about" element={<Layout><About /></Layout>} />
+            <Route path="/scan" element={<Layout><QRScanPage /></Layout>} />
+
+            {/* Auth routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/about" element={<Layout><About /></Layout>} />
 
-            {/* Legacy dashboard - will redirect based on role */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute element={<Layout><Dashboard /></Layout>} />
-            } />
-
-            {/* Role-specific dashboards */}
+            {/* Admin routes */}
             <Route path="/admin/dashboard" element={
               <ProtectedRoute
                 element={<Layout><AdminDashboard /></Layout>}
@@ -116,6 +111,8 @@ const App: React.FC = () => {
                 requiredPermissions={[Permission.VIEW_SYSTEM_STATS]}
               />
             } />
+
+            {/* Supplier routes */}
             <Route path="/supplier/dashboard" element={
               <ProtectedRoute
                 element={<Layout><SupplierDashboard /></Layout>}
@@ -128,42 +125,6 @@ const App: React.FC = () => {
                 element={<Layout><AddProductPage /></Layout>}
                 allowedRoles={[UserRole.SUPPLIER, UserRole.ADMIN]}
                 requiredPermissions={[Permission.GENERATE_QR]}
-              />
-            } />
-            <Route path="/customer/products" element={
-              <ProtectedRoute
-                element={<Layout><CustomerDashboard /></Layout>}
-                allowedRoles={[UserRole.USER]}
-                requiredPermissions={[Permission.VIEW_PRODUCTS]}
-              />
-            } />
-
-            {/* Protected routes */}
-            <Route path="/business" element={
-              <ProtectedRoute element={<Layout><Business /></Layout>} />
-            } />
-            <Route path="/products" element={
-              <ProtectedRoute element={<Layout><Products /></Layout>} />
-            } />
-            <Route path="/tracking" element={
-              <ProtectedRoute element={<Layout><Tracking /></Layout>} />
-            } />
-            <Route path="/product/:id" element={
-              <ProtectedRoute element={<Layout><ProductDetail /></Layout>} />
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute element={<Profile />} />
-            } />
-            <Route path="/settings" element={
-              <ProtectedRoute element={<Settings />} />
-            } />
-
-            {/* QR Code routes */}
-            <Route path="/customer/scan" element={
-              <ProtectedRoute
-                element={<Layout><QRScanPage /></Layout>}
-                allowedRoles={[UserRole.USER, UserRole.SUPPLIER, UserRole.ADMIN]}
-                requiredPermissions={[Permission.SCAN_QR]}
               />
             } />
             <Route path="/supplier/scan" element={
@@ -180,7 +141,6 @@ const App: React.FC = () => {
                 requiredPermissions={[Permission.GENERATE_QR]}
               />
             } />
-
             <Route path="/supplier/products" element={
               <ProtectedRoute
                 element={<Layout><ProductsPage /></Layout>}

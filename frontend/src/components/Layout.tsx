@@ -178,6 +178,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
+    handleProfileMenuClose();
+    navigate('/');
   };
 
   // Determine which menu items to show based on user role
@@ -283,29 +285,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           )
         ))}
       </List>
-      {user && (
-        <>
-          <Divider />
-          <List>
-            <ListItem button onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout />
-              </ListItemIcon>
-              <ListItemText primary="Đăng xuất" />
-            </ListItem>
-          </List>
-        </>
-      )}
     </Box>
   );
+
+  // Chỉ render sidebar khi user là supplier
+  const isSupplier = user && user.role === UserRole.SUPPLIER;
 
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
         sx={{
-          width: { md: user ? `calc(100% - ${drawerWidth}px)` : '100%' },
-          ml: { md: user ? `${drawerWidth}px` : 0 },
+          width: isSupplier ? { md: `calc(100% - ${drawerWidth}px)` } : '100%',
+          ml: isSupplier ? { md: `${drawerWidth}px` } : 0,
           bgcolor: 'background.paper',
           color: 'text.primary',
           boxShadow: 'none',
@@ -314,7 +306,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         }}
       >
         <Toolbar>
-          {user && (
+          {isSupplier && (
             <IconButton
               color="inherit"
               edge="start"
@@ -324,16 +316,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <MenuIcon />
             </IconButton>
           )}
+          <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/') }>
+            <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40, mr: 1 }}>FT</Avatar>
+            <Typography variant="h6" fontWeight="bold" color="primary.main" sx={{ letterSpacing: 1 }}>
+              FoodTrace
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* Theme Toggle */}
           <Box sx={{ mr: 1 }}>
             <ThemeToggle />
           </Box>
         </Toolbar>
       </AppBar>
 
-      {user && (
+      {/* Chỉ render Drawer/sidebar khi user là supplier */}
+      {isSupplier && (
         <Box
           component="nav"
           sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
@@ -417,12 +414,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </MenuItem>
       </Menu>
 
+      {/* Main content luôn chiếm toàn bộ chiều ngang khi không phải supplier */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { md: user ? `calc(100% - ${drawerWidth}px)` : '100%' },
+          width: '100%',
           minHeight: '100vh',
           bgcolor: 'background.default',
         }}
