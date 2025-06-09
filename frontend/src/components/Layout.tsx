@@ -110,7 +110,7 @@ const supplierMenuItems: MenuItem[] = [
     permission: Permission.VIEW_SALES
   },
   {
-    text: 'Sản phẩm',
+    text: 'Cập nhật trạng thái sản phẩm',
     icon: <Inventory />,
     path: '/supplier/products',
     permission: Permission.CREATE_PRODUCT

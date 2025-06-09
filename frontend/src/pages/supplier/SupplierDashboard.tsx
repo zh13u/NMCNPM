@@ -134,7 +134,7 @@ const SupplierDashboard: React.FC = () => {
             </Card>
           </Grid>
 
-          {/* Products */}
+          {/* Update Product Status */}
           <Grid item xs={12} sm={6} md={4}>
             <Card 
               sx={{ 
@@ -150,7 +150,7 @@ const SupplierDashboard: React.FC = () => {
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ 
-                    bgcolor: 'primary.main', 
+                    bgcolor: 'warning.main', 
                     color: 'white', 
                     p: 2, 
                     borderRadius: 1,
@@ -160,10 +160,10 @@ const SupplierDashboard: React.FC = () => {
                   </Box>
                   <Box>
                     <Typography variant="h6">
-                      Sản phẩm
+                      Cập nhật trạng thái sản phẩm
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Xem danh sách sản phẩm
+                      Thêm các bước, trạng thái mới cho sản phẩm theo ID
                     </Typography>
                   </Box>
                 </Box>

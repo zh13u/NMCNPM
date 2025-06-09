@@ -1,234 +1,156 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import React, { useState } from 'react';
 import { BLOCKCHAIN_API } from '../../config';
 import {
   Container,
   Box,
   Typography,
   Paper,
-  Grid,
-  Card,
-  CardContent,
+  TextField,
   Button,
   CircularProgress,
-  Alert,
-  Chip,
-  TextField,
+  Alert
 } from '@mui/material';
-import { Edit, Delete, Add, Search } from '@mui/icons-material';
-
-interface Product {
-  productId: string;
-  productName: string;
-  actor: string;
-  location: string;
-  step: string;
-  qualityStatus: string;
-  details: string;
-  timestamp: string;
-}
 
 const ProductsPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [formData, setFormData] = useState({
+    id: '',
+    actor: '',
+    location: '',
+    step: '',
+    qualityStatus: '',
+    details: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [successData, setSuccessData] = useState<any>(null);
+  const [qrUrl, setQrUrl] = useState('');
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const fetchProducts = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccessData(null);
+    setQrUrl('');
     try {
-      setLoading(true);
-      const response = await fetch(`${BLOCKCHAIN_API}/api/getAllProducts`);
+      const response = await fetch(`${BLOCKCHAIN_API}/api/addStep`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Không thể tải danh sách sản phẩm');
-      }
-
-      // Lấy chi tiết cho từng sản phẩm
-      const productsWithDetails = await Promise.all(
-        data.products.map(async (product: { productId: string }) => {
-          const eventsResponse = await fetch(`${BLOCKCHAIN_API}/api/getEvents/${product.productId}`);
-          const eventsData = await eventsResponse.json();
-          
-          if (eventsData.events && eventsData.events.length > 0) {
-            const latestEvent = eventsData.events[eventsData.events.length - 1];
-            return {
-              ...product,
-              ...latestEvent
-            };
-          }
-          return product;
-        })
-      );
-
-      setProducts(productsWithDetails);
+      if (!response.ok) throw new Error(data.message || 'Cập nhật trạng thái thất bại');
+      setSuccessData(data);
+      setQrUrl(`${BLOCKCHAIN_API}/api/getQRCode/${formData.id}`);
     } catch (err) {
-      console.error('Lỗi khi tải sản phẩm:', err);
-      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tải sản phẩm');
+      setError(err instanceof Error ? err.message : 'Có lỗi khi cập nhật trạng thái');
     } finally {
       setLoading(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'tốt':
-        return 'success';
-      case 'đang xử lý':
-        return 'warning';
-      case 'lỗi':
-        return 'error';
-      default:
-        return 'default';
-    }
-  };
-
-  const handleViewDetails = (productId: string) => {
-    navigate(`/supplier/product/${productId}`);
-  };
-
-  const handleAddProduct = () => {
-    navigate('/supplier/add-product');
-  };
-
-  const handleGenerateQR = (productId: string) => {
-    // TODO: Implement QR generation
-    console.log('Generate QR for product:', productId);
-  };
-
-  const filteredProducts = products.filter(product =>
-    product.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container>
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
-      </Container>
-    );
-  }
-
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <Grid container spacing={4}>
-          {/* Sidebar */}
-          <Grid item xs={12} md={3}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Bộ lọc
-                </Typography>
-                <TextField
-                  fullWidth
-                  label="Tìm kiếm"
-                  variant="outlined"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  sx={{ mb: 2 }}
-                  InputProps={{
-                    startAdornment: <Search sx={{ mr: 1 }} />,
-                  }}
-                />
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Add />}
-                  onClick={handleAddProduct}
-                  sx={{ mb: 2 }}
-                >
-                  Thêm sản phẩm
-                </Button>
-                <Typography variant="subtitle2" gutterBottom>
-                  Trạng thái
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  <Chip label="Tất cả" color="primary" />
-                  <Chip label="Tốt" />
-                  <Chip label="Đang xử lý" />
-                  <Chip label="Lỗi" />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Main Content */}
-          <Grid item xs={12} md={9}>
-            <Grid container spacing={3}>
-              {filteredProducts.map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.productId}>
-                  <Card 
-                    sx={{ 
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      transition: 'transform 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: 6
-                      }
-                    }}
-                  >
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography variant="h6" gutterBottom>
-                        {product.productName}
-                      </Typography>
-                      
-                      <Box sx={{ mb: 2 }}>
-                        <Chip 
-                          label={product.qualityStatus}
-                          color={getStatusColor(product.qualityStatus) as any}
-                          size="small"
-                          sx={{ mr: 1 }}
-                        />
-                        <Chip 
-                          label={product.step}
-                          variant="outlined"
-                          size="small"
-                        />
-                      </Box>
-
-                      <Typography variant="body2" color="text.secondary" gutterBottom>
-                        <strong>ID:</strong> {product.productId}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" gutterBottom>
-                        <strong>Địa điểm:</strong> {product.location}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Người thực hiện:</strong> {product.actor}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-
-            {filteredProducts.length === 0 && (
-              <Paper sx={{ p: 3, textAlign: 'center', mt: 3 }}>
-                <Typography variant="body1" color="text.secondary">
-                  Chưa có sản phẩm nào được thêm vào hệ thống.
-                </Typography>
-              </Paper>
-            )}
-          </Grid>
-        </Grid>
+        <Typography variant="h4" gutterBottom>
+          Cập nhật trạng thái sản phẩm
+        </Typography>
+        <Paper sx={{ p: 3 }}>
+          {successData ? (
+            <Box sx={{ textAlign: 'center', mt: 2 }}>
+              <Alert severity="success" sx={{ mb: 2 }}>Cập nhật trạng thái thành công!</Alert>
+              <Typography variant="body1" gutterBottom>
+                Mã Sản Phẩm: {formData.id}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Bước: {successData.step}
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <img src={qrUrl} alt="QR Code" style={{ width: 200, height: 200 }} crossOrigin="anonymous" />
+              </Box>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                Quét mã QR để xem thông tin sản phẩm
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Hoặc truy cập: <a href={`${BLOCKCHAIN_API}/product/${formData.id}`} target="_blank" rel="noopener noreferrer">{`${BLOCKCHAIN_API}/product/${formData.id}`}</a>
+              </Typography>
+            </Box>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Mã Sản Phẩm (ID)"
+                name="id"
+                value={formData.id}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Người thực hiện (actor)"
+                name="actor"
+                value={formData.actor}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Địa điểm (location)"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Bước (step)"
+                name="step"
+                value={formData.step}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Trạng thái chất lượng (qualityStatus)"
+                name="qualityStatus"
+                value={formData.qualityStatus}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                label="Chi tiết (details)"
+                name="details"
+                value={formData.details}
+                onChange={handleChange}
+                multiline
+                rows={2}
+              />
+              {error && (
+                <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                sx={{ mt: 2 }}
+              >
+                {loading ? <CircularProgress size={24} /> : 'Cập nhật trạng thái'}
+              </Button>
+            </form>
+          )}
+        </Paper>
       </Box>
     </Container>
   );
