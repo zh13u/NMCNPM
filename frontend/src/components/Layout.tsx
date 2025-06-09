@@ -284,6 +284,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </ListItem>
           )
         ))}
+        {/* Nút đăng xuất */}
+        {user && (
+          <>
+            <Divider sx={{ my: 1 }} />
+            <ListItem button onClick={handleLogout} key="logout">
+              <ListItemIcon>
+                <Logout color="error" />
+              </ListItemIcon>
+              <ListItemText primary="Đăng xuất" primaryTypographyProps={{ color: 'error' }} />
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   );

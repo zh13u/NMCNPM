@@ -17,6 +17,7 @@ import {
   QrCodeScanner,
   Inventory,
   VerifiedUser,
+  Logout,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { UserRole } from '../../types/user';
@@ -24,13 +25,18 @@ import { UserRole } from '../../types/user';
 const SupplierDashboard: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   if (user?.role !== UserRole.SUPPLIER) {
     return null;
   }
 
   const displayName = user.company_name || user.username || 'Nhà cung cấp';
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <Box sx={{ minHeight: '100vh', background: theme.palette.background.default, py: 4 }}>
@@ -46,12 +52,14 @@ const SupplierDashboard: React.FC = () => {
                 Trang quản lý dành cho nhà cung cấp
               </Typography>
             </Box>
-            <Chip
-              icon={<VerifiedUser />}
-              label="Đang hoạt động"
-              color="success"
-              variant="outlined"
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Chip
+                icon={<VerifiedUser />}
+                label="Đang hoạt động"
+                color="success"
+                variant="outlined"
+              />
+            </Box>
           </Box>
         </Paper>
 
