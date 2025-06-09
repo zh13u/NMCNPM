@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BLOCKCHAIN_API } from '../../config';
 import {
   Container,
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { QrCodeScanner, Upload } from '@mui/icons-material';
 import jsQR from 'jsqr';
+import { Html5Qrcode } from 'html5-qrcode';
 
 const QRScanPage: React.FC = () => {
   const [scanning, setScanning] = useState(false);
@@ -23,6 +24,9 @@ const QRScanPage: React.FC = () => {
   const [qrLink, setQrLink] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cameraRef = useRef<HTMLDivElement>(null);
+  const [cameraActive, setCameraActive] = useState(false);
+  const html5QrCodeRef = useRef<any>(null);
 
   // Quét QR từ ảnh upload
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,8 +65,40 @@ const QRScanPage: React.FC = () => {
     }
   };
 
-  // Quét QR bằng camera (dùng thư viện html5-qrcode nếu muốn, ở đây để đơn giản sẽ bỏ qua demo camera)
-  // Bạn có thể tích hợp lại nếu muốn, ở đây chỉ giữ upload ảnh cho gọn.
+  // Bắt đầu/dừng camera
+  const handleCameraScan = async () => {
+    setError('');
+    setSelectedImage(null);
+    setProduct(null);
+    setQrLink('');
+    setCameraActive((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (cameraActive && cameraRef.current) {
+      const html5QrCode = new Html5Qrcode('qr-camera');
+      html5QrCodeRef.current = html5QrCode;
+      html5QrCode.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: 350 },
+        (decodedText: string) => {
+          html5QrCode.stop();
+          setCameraActive(false);
+          handleQRResult(decodedText);
+        },
+        (error: any) => {
+          // Không hiển thị lỗi liên tục
+        }
+      ).catch((err: any) => {
+        setError('Không thể truy cập camera hoặc camera đang được sử dụng.');
+        setCameraActive(false);
+      });
+      return () => {
+        try { html5QrCode.stop?.().catch?.(() => {}); } catch {}
+        try { html5QrCode.clear?.(); } catch {}
+      };
+    }
+  }, [cameraActive]);
 
   // Xử lý kết quả QR (link hoặc id)
   const handleQRResult = async (qrData: string) => {
@@ -105,6 +141,21 @@ const QRScanPage: React.FC = () => {
           Quét Mã QR Sản Phẩm
         </Typography>
         <Paper sx={{ p: 3, mb: 2 }}>
+          <Button
+            variant={cameraActive ? 'outlined' : 'contained'}
+            startIcon={<QrCodeScanner />}
+            fullWidth
+            sx={{ mb: 2 }}
+            color={cameraActive ? 'error' : 'primary'}
+            onClick={handleCameraScan}
+          >
+            {cameraActive ? 'Tắt camera' : 'Quét bằng camera'}
+          </Button>
+          {cameraActive && (
+            <Box sx={{ width: '100%', height: 400, mb: 2 }}>
+              <div id="qr-camera" ref={cameraRef} style={{ width: '100%', height: '100%' }} />
+            </Box>
+          )}
           <input
             accept="image/*"
             style={{ display: 'none' }}
@@ -119,6 +170,7 @@ const QRScanPage: React.FC = () => {
               startIcon={<Upload />}
               fullWidth
               sx={{ mb: 2 }}
+              disabled={cameraActive}
             >
               Tải ảnh QR lên
             </Button>

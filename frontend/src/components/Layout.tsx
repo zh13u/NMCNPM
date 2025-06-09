@@ -125,12 +125,12 @@ const supplierMenuItems: MenuItem[] = [
 
 // Customer-specific menu items
 const customerMenuItems: MenuItem[] = [
-  {
-    text: 'Sản phẩm',
-    icon: <Inventory />,
-    path: '/customer/products',
-    permission: Permission.VIEW_PRODUCTS
-  },
+  // {
+  //   text: 'Sản phẩm',
+  //   icon: <Inventory />,
+  //   path: '/customer/products',
+  //   permission: Permission.VIEW_PRODUCTS
+  // },
   {
     text: 'Quét mã QR',
     icon: <QrCodeScanner />,
