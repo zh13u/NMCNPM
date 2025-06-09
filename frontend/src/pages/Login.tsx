@@ -182,42 +182,6 @@ const Login: React.FC = () => {
               {loading ? <CircularProgress size={24} /> : 'Đăng nhập'}
             </Button>
           </form>
-          
-          <Divider sx={{ my: 3, position: 'relative' }}>
-            <Typography
-              variant="body2"
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                bgcolor: 'background.paper',
-                px: 2,
-                color: 'text.secondary',
-              }}
-            >
-              hoặc
-            </Typography>
-          </Divider>
-          <Box sx={{ mt: 3, textAlign: 'center' }}>
-            <Typography variant="body2">
-              Chưa có tài khoản?{' '}
-              <Button
-                color="primary"
-                onClick={() => navigate('/register')}
-                sx={{ p: 0 }}
-              >
-                Đăng ký ngay
-              </Button>
-            </Typography>
-            <Button
-              color="primary"
-              onClick={() => navigate('/forgot-password')}
-              sx={{ mt: 1, p: 0 }}
-            >
-              Quên mật khẩu?
-            </Button>
-          </Box>
         </Paper>
       </motion.div>
     </Box>
