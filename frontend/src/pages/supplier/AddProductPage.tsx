@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { BLOCKCHAIN_API } from '../../config';
-import { Box, Container, Typography, Paper, TextField, Button, Grid, Alert, CircularProgress } from '@mui/material';
-import { QRCodeSVG } from 'qrcode.react';
+import { Box, Container, Typography, Paper, TextField, Button, Grid, Alert, CircularProgress, Card, CardContent } from '@mui/material';
 
 interface ProductFormData {
-  productName: string;
-  actor: string;
-  location: string;
-  step: string;
-  qualityStatus: string;
-  details: string;
+  id: string;
+  name: string;
+  origin: string;
 }
 
 interface User {
@@ -21,20 +17,44 @@ interface User {
   role: string;
 }
 
+interface ProductResponse {
+  status: string;
+  productId: string;
+  name: string;
+  txHash: string;
+}
+
 const AddProductPage: React.FC = () => {
   const { user } = useAuth() as { user: User | null };
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ProductFormData>({
-    productName: '',
-    actor: user?.name || '',
-    location: '',
-    step: 'Sản xuất',
-    qualityStatus: 'Tốt',
-    details: ''
+    id: '',
+    name: '',
+    origin: ''
   });
-  const [qrCode, setQrCode] = useState<string>('');
+  const [productUrl, setProductUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [successData, setSuccessData] = useState<ProductResponse | null>(null);
+
+  useEffect(() => {
+    // Lấy ID sản phẩm tiếp theo từ blockchain
+    const fetchNextProductId = async () => {
+      try {
+        const response = await fetch(`${BLOCKCHAIN_API}/api/getNextProductId`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setFormData(prev => ({
+            ...prev,
+            id: data.productId
+          }));
+        }
+      } catch (err) {
+        console.error('Lỗi khi lấy ID sản phẩm:', err);
+      }
+    };
+    fetchNextProductId();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,63 +68,46 @@ const AddProductPage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setQrCode('');
+    setProductUrl('');
+    setSuccessData(null);
 
     try {
-      // Generate a unique product ID
-      const productId = `SP${Date.now().toString().slice(-5).padStart(5, '0')}`;
-
-      // Prepare product data for blockchain
-      const productData = {
-        productId: productId,
-        productName: formData.productName,
-        actor: formData.actor,
-        location: formData.location,
-        step: formData.step,
-        qualityStatus: formData.qualityStatus,
-        details: formData.details
-      };
-
-      console.log('Đang gửi dữ liệu đến blockchain:', {
-        url: `${BLOCKCHAIN_API}/api/addEvent`,
-        data: productData
-      });
-
       // Add product to blockchain
-      const response = await fetch(`${BLOCKCHAIN_API}/api/addEvent`, {
+      const response = await fetch(`${BLOCKCHAIN_API}/api/addProduct`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
-        body: JSON.stringify(productData),
+        body: JSON.stringify({
+          id: formData.id,
+          name: formData.name,
+          origin: formData.origin
+        }),
       });
 
       const responseData = await response.json();
       console.log('Phản hồi từ blockchain:', responseData);
 
       if (!response.ok) {
-        console.error('Lỗi từ blockchain:', responseData);
-        const errorMessage = responseData.error?.message || responseData.error || 'Không thể thêm sản phẩm vào blockchain';
-        throw new Error(errorMessage);
+        throw new Error(responseData.message || 'Không thể thêm sản phẩm vào blockchain');
       }
 
-      // Generate QR code with product URL
-      if (!responseData.productUrl) {
-        throw new Error('Không tìm thấy URL sản phẩm');
-      }
-      setQrCode(responseData.productUrl);
-      console.log('Mã QR đã được tạo:', responseData.productUrl);
+      setSuccessData(responseData);
 
-      // Reset form
-      setFormData({
-        productName: '',
-        actor: user?.name || '',
-        location: '',
-        step: 'Sản xuất',
-        qualityStatus: 'Tốt',
-        details: ''
-      });
+      // Tạo URL cho trang thông tin sản phẩm
+      const url = `${BLOCKCHAIN_API}/product/${formData.id}`;
+      setProductUrl(url);
+
+      // Reset form và lấy ID mới
+      const nextIdResponse = await fetch(`${BLOCKCHAIN_API}/api/getNextProductId`);
+      const nextIdData = await nextIdResponse.json();
+      if (nextIdData.status === 'success') {
+        setFormData({
+          id: nextIdData.productId,
+          name: '',
+          origin: ''
+        });
+      }
 
     } catch (err) {
       console.error('Chi tiết lỗi:', err);
@@ -128,9 +131,19 @@ const AddProductPage: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  label="Mã Sản Phẩm"
+                  name="id"
+                  value={formData.id}
+                  disabled
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
                   label="Tên Sản Phẩm"
-                  name="productName"
-                  value={formData.productName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   required
                 />
@@ -138,52 +151,11 @@ const AddProductPage: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Người Thực Hiện"
-                  name="actor"
-                  value={formData.actor}
+                  label="Nguồn Gốc"
+                  name="origin"
+                  value={formData.origin}
                   onChange={handleChange}
                   required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Địa Điểm"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Bước"
-                  name="step"
-                  value={formData.step}
-                  onChange={handleChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Tình Trạng Chất Lượng"
-                  name="qualityStatus"
-                  value={formData.qualityStatus}
-                  onChange={handleChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Chi Tiết"
-                  name="details"
-                  value={formData.details}
-                  onChange={handleChange}
-                  multiline
-                  rows={4}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -206,12 +178,49 @@ const AddProductPage: React.FC = () => {
             </Alert>
           )}
 
-          {qrCode && (
+          {successData && (
+            <Card sx={{ mt: 3 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom color="primary">
+                  Thêm Sản Phẩm Thành Công!
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Mã Sản Phẩm: {successData.productId}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Tên Sản Phẩm: {successData.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Transaction Hash: {successData.txHash}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          {successData && (
             <Box sx={{ mt: 3, textAlign: 'center' }}>
               <Typography variant="h6" gutterBottom>
                 Mã QR Sản Phẩm
               </Typography>
-              <QRCodeSVG value={qrCode} size={200} />
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                <img 
+                  src={`${BLOCKCHAIN_API}/api/getQRCode/${successData.productId}`}
+                  alt="QR Code"
+                  style={{ width: 200, height: 200 }}
+                  crossOrigin="anonymous"
+                  onError={(e) => {
+                    console.error('Lỗi khi tải ảnh QR code:', e);
+                    const img = e.target as HTMLImageElement;
+                    img.style.display = 'none';
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                Quét mã QR để xem thông tin sản phẩm
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Hoặc truy cập: <a href={`http://192.168.1.8:5000/product/${successData.productId}`} target="_blank" rel="noopener noreferrer">http://192.168.1.8:5000/product/{successData.productId}</a>
+              </Typography>
             </Box>
           )}
         </Paper>
