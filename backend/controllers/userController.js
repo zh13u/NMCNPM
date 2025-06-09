@@ -77,16 +77,15 @@ exports.updateUser = asyncHandler(async (req, res) => {
 // @access  Private (admin)
 exports.deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-  
   if (!user) {
     return res.status(404).json({
       success: false,
       message: 'Không tìm thấy người dùng'
     });
   }
-  
-  await user.remove();
-  
+  // Xóa toàn bộ sản phẩm liên kết nếu là supplier
+  await Product.deleteMany({ supplier: user._id });
+  await User.findByIdAndDelete(req.params.id);
   res.status(200).json({
     success: true,
     data: {}

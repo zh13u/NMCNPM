@@ -53,6 +53,13 @@ exports.getProducts = asyncHandler(async (req, res) => {
   // Thực thi query
   const products = await query;
   
+  // Thêm trường stepCount cho mỗi sản phẩm
+  const productsWithStepCount = products.map(product => {
+    const productObj = product.toObject();
+    productObj.stepCount = product.trackingDetails ? product.trackingDetails.length : 0;
+    return productObj;
+  });
+  
   // Kết quả phân trang
   const pagination = {};
   
@@ -72,9 +79,9 @@ exports.getProducts = asyncHandler(async (req, res) => {
   
   res.status(200).json({
     success: true,
-    count: products.length,
+    count: productsWithStepCount.length,
     pagination,
-    data: products
+    data: productsWithStepCount
   });
 });
 

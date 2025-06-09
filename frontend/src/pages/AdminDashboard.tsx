@@ -61,7 +61,7 @@ const AdminDashboard: React.FC = () => {
           </ListItem>
           <ListItem button selected={selectedTab === 1} onClick={() => setSelectedTab(1)}>
             <ListItemIcon sx={{ color: '#fff' }}><Inventory2 /></ListItemIcon>
-            <ListItemText primary="Sản phẩm" />
+            <ListItemText primary="Tạo tài khoản" />
           </ListItem>
         </List>
       </Drawer>

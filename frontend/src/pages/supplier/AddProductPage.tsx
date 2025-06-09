@@ -94,6 +94,25 @@ const AddProductPage: React.FC = () => {
 
       setSuccessData(responseData);
 
+      // Ghi sản phẩm vào backend products.json
+      try {
+        await fetch('http://localhost:3000/api/products/local', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: formData.id,
+            name: formData.name,
+            origin: formData.origin,
+            createdAt: new Date().toISOString(),
+            steps: [],
+            quality: '',
+            status: 'active'
+          })
+        });
+      } catch (err) {
+        console.error('Không thể ghi vào file products.json:', err);
+      }
+
       // Tạo URL cho trang thông tin sản phẩm
       const url = `${BLOCKCHAIN_API}/product/${formData.id}`;
       setProductUrl(url);

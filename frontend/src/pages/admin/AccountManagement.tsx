@@ -15,6 +15,14 @@ import {
   IconButton,
   Chip,
   Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  MenuItem,
+  Snackbar,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,6 +34,7 @@ interface User {
   name: string;
   email: string;
   role: string;
+  [key: string]: any;
 }
 
 const getRoleColor = (role: string) => {
@@ -41,21 +50,82 @@ const AccountManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [editUser, setEditUser] = useState<User | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editForm, setEditForm] = useState({ email: '', role: '', address: '', phone: '', businessName: '', businessType: '', taxCode: '' });
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({ open: false, message: '', severity: 'success' });
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get('/api/users');
+      setUsers(res.data.data);
+    } catch (err: any) {
+      setError('Không thể tải danh sách tài khoản.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get('/api/users');
-        setUsers(res.data.data);
-      } catch (err: any) {
-        setError('Không thể tải danh sách tài khoản.');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUsers();
   }, []);
+
+  // Sửa user
+  const handleEditClick = (user: User) => {
+    setEditUser(user);
+    setEditForm({
+      email: user.email || '',
+      role: user.role || '',
+      address: user.address || '',
+      phone: user.phone || '',
+      businessName: user.businessName || '',
+      businessType: user.businessType || '',
+      taxCode: user.taxCode || '',
+    });
+    setEditOpen(true);
+  };
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setEditUser(null);
+  };
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+  const handleEditSubmit = async () => {
+    if (!editUser) return;
+    try {
+      await axios.put(`/api/users/${editUser._id}`, editForm);
+      setSnackbar({ open: true, message: 'Cập nhật thành công!', severity: 'success' });
+      setEditOpen(false);
+      fetchUsers();
+    } catch (err) {
+      setSnackbar({ open: true, message: 'Cập nhật thất bại!', severity: 'error' });
+    }
+  };
+
+  // Xóa user
+  const handleDeleteClick = (user: User) => {
+    setDeleteUser(user);
+    setDeleteOpen(true);
+  };
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+    setDeleteUser(null);
+  };
+  const handleDeleteConfirm = async () => {
+    if (!deleteUser) return;
+    try {
+      await axios.delete(`/api/users/${deleteUser._id}`);
+      setSnackbar({ open: true, message: 'Đã xóa tài khoản!', severity: 'success' });
+      setDeleteOpen(false);
+      fetchUsers();
+    } catch (err) {
+      setSnackbar({ open: true, message: 'Xóa thất bại!', severity: 'error' });
+    }
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -104,12 +174,12 @@ const AccountManagement: React.FC = () => {
                   </TableCell>
                   <TableCell align="center">
                     <Tooltip title="Sửa">
-                      <IconButton size="small" color="primary" disabled>
+                      <IconButton size="small" sx={{ color: 'green' }} onClick={() => handleEditClick(user)}>
                         <EditIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Xóa">
-                      <IconButton size="small" color="error" disabled>
+                      <IconButton size="small" sx={{ color: 'red' }} onClick={() => handleDeleteClick(user)}>
                         <DeleteIcon />
                       </IconButton>
                     </Tooltip>
@@ -120,6 +190,43 @@ const AccountManagement: React.FC = () => {
           </Table>
         </TableContainer>
       )}
+      {/* Dialog cập nhật user */}
+      <Dialog open={editOpen} onClose={handleEditClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Cập nhật tài khoản</DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
+          <TextField label="Email" name="email" value={editForm.email} onChange={handleEditChange} fullWidth />
+          <TextField label="Vai trò" name="role" value={editForm.role} onChange={handleEditChange} select fullWidth>
+            <MenuItem value="supplier">Supplier</MenuItem>
+            <MenuItem value="customer">Customer</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
+          </TextField>
+          <TextField label="Địa chỉ" name="address" value={editForm.address} onChange={handleEditChange} fullWidth />
+          <TextField label="Số điện thoại" name="phone" value={editForm.phone} onChange={handleEditChange} fullWidth />
+          <TextField label="Tên doanh nghiệp" name="businessName" value={editForm.businessName} onChange={handleEditChange} fullWidth />
+          <TextField label="Loại doanh nghiệp" name="businessType" value={editForm.businessType} onChange={handleEditChange} fullWidth />
+          <TextField label="Mã số thuế" name="taxCode" value={editForm.taxCode} onChange={handleEditChange} fullWidth />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditClose}>Hủy</Button>
+          <Button onClick={handleEditSubmit} variant="contained" color="success">Cập nhật</Button>
+        </DialogActions>
+      </Dialog>
+      {/* Dialog xác nhận xóa */}
+      <Dialog open={deleteOpen} onClose={handleDeleteClose} maxWidth="xs">
+        <DialogTitle>Xác nhận xóa tài khoản?</DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDeleteClose}>Hủy</Button>
+          <Button onClick={handleDeleteConfirm} variant="contained" color="error">Xóa</Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={2500}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        message={snackbar.message}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        ContentProps={{ sx: { bgcolor: snackbar.severity === 'success' ? 'success.main' : 'error.main', color: '#fff' } }}
+      />
     </Box>
   );
 };
