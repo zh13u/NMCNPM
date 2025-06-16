@@ -59,7 +59,7 @@
 
 ## ✨ **Key Features**
 
-<table>
+<table align="center">
 <tr>
 <td width="50%">
 
@@ -171,7 +171,7 @@ foodtrace/
 
 ### 🎨 **Frontend Powerhouse**
 
-<table>
+<table align="center">
 <tr>
 <td align="center" width="20%">
   <img src="https://skillicons.dev/icons?i=nextjs" width="40"/>
@@ -203,7 +203,7 @@ foodtrace/
 
 ### 🚀 **Backend Excellence**
 
-<table>
+<table align="center">
 <tr>
 <td align="center" width="25%">
   <img src="https://skillicons.dev/icons?i=nodejs" width="40"/>
@@ -230,7 +230,7 @@ foodtrace/
 
 ### ⛓️ **Blockchain Infrastructure**
 
-<table>
+<table align="center">
 <tr>
 <td align="center" width="25%">
   <img src="https://skillicons.dev/icons?i=solidity" width="40"/>
@@ -291,37 +291,18 @@ cd foodtrace
 ```bash
 cd frontend
 npm install
-# or
-yarn install
 ```
 
 #### 3️⃣ **Install Backend Dependencies**
 ```bash
 cd ../backend
 npm install
-# or
-yarn install
 ```
 
 #### 4️⃣ **Install Blockchain Dependencies**
 ```bash
 cd ../blockchain
 npm install
-# or
-yarn install
-```
-
-#### 5️⃣ **Environment Setup**
-```bash
-# Backend environment
-cd ../backend
-cp .env.example .env
-# Edit .env with your configuration
-
-# Frontend environment
-cd ../frontend
-cp .env.local.example .env.local
-# Edit .env.local with your configuration
 ```
 
 </details>
@@ -333,54 +314,59 @@ cp .env.local.example .env.local
 </div>
 
 ```bash
-# 🚀 Start Frontend (Terminal 1)
-cd frontend
-npm run dev
+# Create MongoDB environment by using Docker
+docker pull mongo:latest
+docker run -d -p 27017:27017 --name foodtrace mongo:latest
+```
+
+```bash
+# ⛓️ Deploy Smart Contracts (Terminal 1)
+# open ganache and get private_key
+ => cd blockchain
+ => python deploy.py (add private_key)
+ => python app.py
 
 # 🔥 Start Backend (Terminal 2)
 cd backend
-npm run dev
+npm start
 
-# ⛓️ Deploy Smart Contracts (Terminal 3)
-cd blockchain
-truffle migrate --network development
+# 🚀 Start Frontend (Terminal 3)
+cd frontend
+npm start
 ```
 
-<div align="center">
+#### Using
 
-**🎉 Application will be available at:**
-- **Frontend:** http://localhost:3000
-- **Backend:** http://localhost:5000
-- **Blockchain:** http://localhost:8545
+- Visit the homepage: [http://localhost:3000](http://localhost:3000)  
+  👉 This page allows users to **scan QR codes** via camera or **upload QR images**.
 
-</div>
+- Access the admin dashboard at: [http://localhost:3000/admin](http://localhost:3000/admin)  
+  👉 Reserved for **admin accounts** with the following credentials:
+  * **Email:** `admin@gmail.com`  
+  * **Password:** `admin123`
+  * Features available:
+    - Manage supplier accounts  
+    - Create new supplier accounts  
 
----
-
-## 📊 **Project Stats**
-
-<div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=your-username&theme=radical&hide_border=true" alt="GitHub Streak" />
-</div>
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=your-username&show_icons=true&theme=radical&hide_border=true" alt="GitHub Stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=your-username&theme=radical&hide_border=true&layout=compact" alt="Top Languages" />
-</div>
+- Experience the **supplier dashboard**:
+  👉 Please login a supplier account at [http://localhost:3000/login](http://localhost:3000/login)  
+  👉 Once logged in, you will be redirected to the **Dashboard**, where you can:
+  * Add new products  
+  * Update product status and quality
 
 ---
 
 ## 🤝 **Contributing**
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=4ECDC4&center=true&vCenter=true&width=600&lines=We+Love+Contributors!;Join+Our+Amazing+Community;Make+Food+Safer+Together!" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=4ECDC4&center=true&vCenter=true&width=700&lines=Built+by+5+Amazing+Developers!;Teamwork+Makes+the+Dream+Work;Join+Our+Growing+Community;Make+Food+Safer+Together!" alt="Typing SVG" />
 </div>
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/74038190/212284094-e50ceae2-de86-4dd6-a8c0-b9c6ba57ed34.gif" width="200">
 </div>
 
-We welcome contributions from developers around the world! Here's how you can contribute:
+This project was collaboratively built by our team of 5 developers, each bringing unique skills and expertise. We welcome contributions from the community to help improve FoodTrace!
 
 ### 🎯 **How to Contribute**
 
@@ -398,52 +384,105 @@ We welcome contributions from developers around the world! Here's how you can co
 - 🧪 **Testing:** Add tests for new features
 - 🎨 **UI/UX:** Improve user experience
 
-<div align="center">
-  <a href="https://github.com/your-username/foodtrace/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=your-username/foodtrace" />
-  </a>
-</div>
-
 ---
 
-## 📄 **License**
+## 👥 **Meet Our Team**
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="100">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=E91E63&center=true&vCenter=true&width=600&lines=Meet+Our+Amazing+Team!;5+Passionate+Developers;Building+the+Future+Together!;Collaborative+Excellence!" alt="Typing SVG" />
 </div>
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 <div align="center">
-
-```
-MIT License - Feel free to use, modify, and distribute! 🎉
-```
-
+  <img src="https://user-images.githubusercontent.com/74038190/212284145-bf2c01a8-c448-4f1a-b911-99c676e5e62d.gif" width="200">
 </div>
 
----
-
-## 👥 **Meet the Team**
-
-<div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=E91E63&center=true&vCenter=true&width=500&lines=Meet+Our+Awesome+Team!;Passionate+Developers;Building+the+Future!" alt="Typing SVG" />
-</div>
-
-<table align="center">
+<table align="center" width="900px">
 <tr>
-<td align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/235294015-47144047-25ab-417c-af1e-4f6746bb4ff4.gif" width="100"/>
+<td align="center" width="20%">
+  <img src="https://avatars.githubusercontent.com/u/127707514?v=4" width="80"/>
   <br>
-  <strong>Your Name</strong>
+  <strong>kuveee</strong>
   <br>
-  <sub>🚀 Lead Developer</sub>
+  <sub>🎨 Frontend Specialist</sub>
   <br>
-  <a href="https://github.com/your-github">GitHub</a> •
-  <a href="https://linkedin.com/in/your-profile">LinkedIn</a>
+  <sub>React • TypeScript • UI/UX</sub>
+  <br>
+  <sub>Testing • Deployment</sub>
+  <br>
+  <a href="https://github.com/kuveee">GitHub</a>
+</td>
+<td align="center" width="20%">
+  <img src="https://avatars.githubusercontent.com/u/129470696?v=4" width="80"/>
+  <br>
+  <strong>NTK1100</strong>
+  <br>
+  <sub>⛓️ Blockchain Developer</sub>
+  <br>
+  <sub>Solidity • Smart Contracts</sub>
+  <br>
+  <sub>Testing • Deployment</sub>
+  <br>
+  <a href="https://github.com/NTK1100">GitHub</a>
+</td>
+<td align="center" width="20%">
+  <img src="https://avatars.githubusercontent.com/u/167009163?v=4" width="80"/>
+  <br>
+  <strong>zh13u</strong>
+  <br>
+  <sub>🔧 Backend Engineer</sub>
+  <br>
+  <sub>Node.js • MongoDB • APIs</sub>
+  <br>
+  <sub>Testing • Deployment</sub>
+  <br>
+  <a href="https://github.com/zh13u">GitHub</a>
+</td>
+<td align="center" width="20%">
+  <img src="https://avatars.githubusercontent.com/u/199244596?v=4" width="80"/>
+  <br>
+  <strong>stepToBecomeGigachad</strong>
+  <br>
+  <sub>⛓️ Blockchain Developer</sub>
+  <br>
+  <sub>Solidity • Smart Contracts</sub>
+  <br>
+  <sub>Testing • Deployment</sub>
+  <br>
+  <a href="https://github.com/stepToBecomeGigachad">GitHub</a>
+</td>
+<td align="center" width="20%">
+  <img src="https://avatars.githubusercontent.com/u/167999420?v=4" width="80"/>
+  <br>
+  <strong>Crabs536</strong>
+  <br>
+  <sub>🔧 Backend Engineer</sub>
+  <br>
+  <sub>Node.js • MongoDB • APIs</sub>
+  <br>
+  <sub>Testing • Deployment</sub>
+  <br>
+  <a href="https://github.com/Crabs536">GitHub</a>
 </td>
 </tr>
 </table>
+
+### 🎯 **Team Roles & Responsibilities**
+
+<div align="center">
+
+| 👨‍💻 **Role** | 🛠️ **Responsibilities** | 🚀 **Technologies** |
+|-------------|------------------------|-------------------|
+| **Project Lead** | Architecture, Coordination, Full-Stack Development | Next.js, React, Node.js, Project Management |
+| **Blockchain Dev** | Smart Contracts, Web3 Integration, DApp Logic | Solidity, Truffle, Hardhat, Ethereum |
+| **Frontend Specialist** | UI/UX Design, Component Development, Responsive Design | React, TypeScript, Material-UI, CSS |
+| **Backend Engineer** | API Development, Database Design, Server Logic | Node.js, Express, MongoDB, RESTful APIs |
+| **Security & DevOps** | Authentication, Testing, CI/CD, Deployment | JWT, Testing Frameworks, Docker, AWS |
+
+</div>
+
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284145-bf2c01a8-c448-4f1a-b911-99c676e5e62d.gif" width="300">
+</div>
 
 ---
 
@@ -453,36 +492,92 @@ MIT License - Feel free to use, modify, and distribute! 🎉
   <img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="100">
 </div>
 
-Special thanks to all the amazing technologies and communities that made this project possible:
+Special thanks to all the amazing technologies, communities, and our team collaboration that made this project possible:
 
-- 🌟 **React Team** for the amazing library
-- ⚡ **Vercel** for Next.js framework
-- ⛓️ **Ethereum Foundation** for blockchain technology
-- 🎨 **Material-UI Team** for beautiful components
-- 🚀 **All Contributors** who helped build this project
-
----
+### 🎓 **Educational Support**
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=25&pause=1000&color=00D8FF&center=true&vCenter=true&width=800&lines=Thank+you+for+checking+out+FoodTrace!;Star+⭐+if+you+found+this+helpful!;Let's+make+food+safer+together! 🥗" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=4CAF50&center=true&vCenter=true&width=700&lines=Proudly+Developed+at+PTIT+Ho+Chi+Minh;Under+Expert+Academic+Guidance;Software+Engineering+Excellence!" alt="Educational Typing SVG" />
 </div>
+
+<table align="center" width="100%">
+<tr>
+<td align="center" width="33%">
+  <img src="https://ptit.edu.vn/wp-content/uploads/2024/08/logo-PTIT-826x1024.jpg" width="80" height="80"/>
+  <br>
+  <strong>🏫 ACADEMIC INSTITUTION</strong>
+  <br>
+  <sub><strong>Posts and Telecommunications Institute of Technology</strong></sub>
+  <br>
+  <sub><strong>Ho Chi Minh City Campus</strong></sub>
+  <br>
+  <sub>🎯 Exceptional academic resources</sub>
+  <br>
+  <sub>🚀 Innovation in technology education</sub>
+</td>
+<td align="center" width="33%">
+  <img src="https://static.vecteezy.com/system/resources/previews/004/610/354/non_2x/simple-minimalist-pen-graduation-hat-for-education-school-university-logo-design-vector.jpg" width="80" height="80"/>
+  <br>
+  <strong>👨‍🏫 FACULTY MENTOR</strong>
+  <br>
+  <sub><strong>Mr. Chau Van Van, MSc</strong></sub>
+  <br>
+  <sub><em>Project Supervisor & Technical Advisor</em></sub>
+  <br><br>
+  <sub>🎓 Exceptional mentorship</sub>
+  <br>
+  <sub>💡 Technical guidance & expertise</sub>
+  <br>
+  <sub>🛠️ Modern software development practices</sub>
+</td>
+<td align="center" width="33%">
+  <img src="https://logo.com/image-cdn/images/kts928pd/production/e6c16c6fdc213eae670cae97c487582ad720f85e-351x351.png?w=1080&q=72&fm=webp" width="80" height="80"/>
+  <br>
+  <strong>📚 COURSE FOUNDATION</strong>
+  <br>
+  <sub><strong>INTRODUCTION TO SOFTWARE ENGINEERING (SWE)</strong></sub>
+  <br>
+  <sub><em>Comprehensive Academic Program</em></sub>
+  <br><br>
+  <sub>📖 Comprehensive curriculum</sub>
+  <br>
+  <sub>🔬 Hands-on learning experiences</sub>
+  <br>
+  <sub>⚙️ Software engineering principles</sub>
+</td>
+</tr>
+</table>
+
+<div align="center">
+  <img src="https://img.shields.io/badge/🎓_PTIT_Ho_Chi_Minh-Educational_Excellence-4CAF50?style=for-the-badge&logoColor=white" alt="PTIT Badge"/>
+  <img src="https://img.shields.io/badge/Mr._Chau_Van_Van_MSc-Faculty_Mentor-2196F3?style=for-the-badge&logoColor=white" alt="Mentor Badge"/>
+  <img src="https://img.shields.io/badge/📚_Software_Engineering-Academic_Foundation-FF9800?style=for-the-badge&logoColor=white" alt="Course Badge"/>
+</div>
+
+### 🌟 **Technology Communities**
+- ⚡ **Vercel Team** for Next.js framework
+- ⚛️ **React Team** for the amazing library
+- ⛓️ **Ethereum Foundation** for blockchain technology
+- 🎨 **Material-UI Team** for beautiful components
+- 🚀 **Open Source Community** for countless resources
+
+### 👥 **Team Collaboration**
+- 💪 **Each team member** for their dedicated contributions
+- 🤝 **Collaborative spirit** that made this project successful
+- 🧠 **Knowledge sharing** between team members
+- ⏰ **Time management** and meeting deadlines together
+
+### 🔧 **Development Tools**
+- 🐙 **GitHub** for version control and collaboration
+- 💬 **Discord/Slack** for team communication
+- 📋 **Trello/Notion** for project management
+- ☕ **Coffee & Late nights** that powered our coding sessions
+
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 </div>
 
----
-
-<div align="center">
-
-### 📞 **Connect With Us**
-
-[![Website](https://img.shields.io/badge/Website-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)](https://your-website.com)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/your-handle)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
-
-</div>
 
 <div align="center">
   <sub>Built with ❤️ by the FoodTrace team</sub>
